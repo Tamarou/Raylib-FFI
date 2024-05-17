@@ -1,0 +1,27 @@
+---
+abstract: 'INSERT YOUR ABSTRACT HERE'
+author:
+  - 'Chris Prather <chris@prather.org>'
+build_requires: {}
+configure_requires:
+  Module::Build::Tiny: '0.039'
+dynamic_config: 0
+generated_by: 'App::ModuleBuildTiny version 0.043, CPAN::Meta::Converter version 2.150010'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: '1.4'
+name: Raylib-FFI
+provides:
+  Color:
+    file: lib/Raylib/FFI.pm
+  Raylib::FFI:
+    file: lib/Raylib/FFI.pm
+    version: '0.01'
+requires:
+  Alien::raylib: '0'
+  FFI::CheckLib: '0'
+  FFI::Platypus: '0'
+version: '0.01'
+x_serialization_backend: 'CPAN::Meta::YAML version 0.018'
+x_spdx_expression: 'Artistic-1.0-Perl OR GPL-1.0-or-later'
