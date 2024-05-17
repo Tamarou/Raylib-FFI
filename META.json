@@ -1,5 +1,5 @@
 {
-   "abstract" : "INSERT YOUR ABSTRACT HERE",
+   "abstract" : "Perl FFI bindings for raylib",
    "author" : [
       "Chris Prather <chris@prather.org>"
    ],
@@ -27,18 +27,22 @@
       "runtime" : {
          "requires" : {
             "Alien::raylib" : "0",
+            "Convert::Color" : "0",
             "FFI::CheckLib" : "0",
             "FFI::Platypus" : "0"
          }
       }
    },
    "provides" : {
-      "Color" : {
-         "file" : "lib/Raylib/FFI.pm"
+      "Raylib::Color" : {
+         "file" : "lib/Raylib/Color.pm"
       },
       "Raylib::FFI" : {
          "file" : "lib/Raylib/FFI.pm",
          "version" : "0.01"
+      },
+      "Raylib::FFI::Color" : {
+         "file" : "lib/Raylib/FFI.pm"
       }
    },
    "release_status" : "stable",

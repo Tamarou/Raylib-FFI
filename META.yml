@@ -1,5 +1,5 @@
 ---
-abstract: 'INSERT YOUR ABSTRACT HERE'
+abstract: 'Perl FFI bindings for raylib'
 author:
   - 'Chris Prather <chris@prather.org>'
 build_requires: {}
@@ -13,13 +13,16 @@ meta-spec:
   version: '1.4'
 name: Raylib-FFI
 provides:
-  Color:
-    file: lib/Raylib/FFI.pm
+  Raylib::Color:
+    file: lib/Raylib/Color.pm
   Raylib::FFI:
     file: lib/Raylib/FFI.pm
     version: '0.01'
+  Raylib::FFI::Color:
+    file: lib/Raylib/FFI.pm
 requires:
   Alien::raylib: '0'
+  Convert::Color: '0'
   FFI::CheckLib: '0'
   FFI::Platypus: '0'
 version: '0.01'

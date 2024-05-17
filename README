@@ -1,10 +1,11 @@
 NAME
 
-    Raylib::FFI - INSERT YOUR ABSTRACT HERE
+    Raylib::FFI - Perl FFI bindings for raylib
 
 DESCRIPTION
 
-    Write a full description of the module and its features here.
+    This module provides Perl bindings for the raylib library using
+    FFI::Platyus.
 
 AUTHOR
 
@@ -16,4 +17,12 @@ COPYRIGHT AND LICENSE
 
     This is free software; you can redistribute it and/or modify it under
     the same terms as the Perl 5 programming language system itself.
+
+RAYLIB LICENSE
+
+    This is an unofficial wrapper of http://www.raylib.com.
+
+    raylib is Copyright (c) 2013-2016 Ramon Santamaria and available under
+    the terms of the zlib/libpng license. Refer to XS/LICENSE.md for full
+    terms.
 
