@@ -73,12 +73,6 @@ class Raylib::App {
         TakeScreenshot($file);
     }
 
-    method draw_fps ( $x, $y ) { DrawFPS( $x, $y ) }
-
-    method draw_text ( $text, $x, $y, $size, $color ) {
-        DrawText( $text, $x, $y, $size, $color );
-    }
-
     method height { $height = GetScreenHeight() }
     method width  { $width  = GetScreenWidth() }
 
@@ -97,25 +91,30 @@ Raylib::App - Perlish wrapper for Raylib videogame library
 
 =head1 SYNOPSIS
 
-    use Raylib::App
-    use Raylib::Text;
-    use Raylib::Color;
+    use 5.38.2;
+    use lib qw(lib);
+    use Raylib::App;
 
-    my $g = Graphics::Raylib->window(120,20);
-    $g->fps(5);
+    my $app = Raylib::App->window( 800, 600, 'Testing!' );
+    $app->fps(5);
 
+    my $fps  = Raylib::Text::FPS->new();
     my $text = Raylib::Text->new(
-        text => 'Hello World!',
-        color => DARKGRAY,
-        size => 20,
+        text  => 'Hello, world!',
+        color => Raylib::Color::WHITE,
+        size  => 20,
     );
 
-    while (!$g->exiting) {
-        $app->draw(sub {
-            $g->clear;
-
-            $text->draw;
-        });
+    while ( !$app->exiting ) {
+        my $x = $app->width() / 2;
+        my $y = $app->height / 2;
+        $app->draw(
+            sub {
+                $app->clear();
+                $fps->draw();
+                $text->draw( $x, $y );
+            }
+        );
     }
 
 =head1 raylib
@@ -169,6 +168,54 @@ The background color of the window, defaults to Raylib::Color::Black.
 
 =item window($width, $height, [$title = $0])
 
+An alternate constructor for creating a new Raylib::App object. This method
+mirrors the API from Graphics::Raylib.
+
+=item fps([$new_fps])
+
+Get or set the frames per second for the application.
+
+=item clear([$new_color])
+
+Clear the window with the given color. If no color is given, the background
+color for the app is used.
+
+=item exiting()
+
+Returns true if the window should close.
+
+=item draw($code)
+
+Begins drawing, calls C<< $code->() >> and ends drawing.
+
+=item draws(@drawables)
+
+Begins drawing, calls C<draw> on each object in the list, and ends drawing.
+
+=item draw3d($code)
+
+Begins drawing in 3D, calls C<< $code->() >> and ends drawing.
+
+=item screenshot([$file])
+
+Take a screenshot of the window and save it to the given file. If no file is
+given, a default filename based on the current timestamp is used.
+
+=item height() / width()
+
+Get the height or width of the window.
+
+=back
+
+=head1 SEE ALSO
+
+L<http://www.raylib.com>
+
+L<Raylib::FFI>
+
+L<Graphics::Raylib>
+
+L<Alien::raylib>
 
 =back
 
@@ -187,4 +234,10 @@ This software is copyright (c) 2024 by Chris Prather.
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
+=head1 RAYLIB LICENSE
 
+This is an unofficial wrapper of L<http://www.raylib.com>.
+
+raylib is Copyright (c) 2013-2016 Ramon Santamaria and available under the terms of the zlib/libpng license. Refer to C<XS/LICENSE.md> for full terms.
+
+=cut

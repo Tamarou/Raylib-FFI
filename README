@@ -29,9 +29,21 @@ DESCRIPTION
     FFI::Platyus. This is functional but very low level. You probably want
     to use Raylib::App instead.
 
+SEE ALSO
+
+    http://www.raylib.com
+
+    Graphics::Raylib
+
+    Alien::raylib
+
 AUTHOR
 
     Chris Prather <chris@prather.org>
+
+    Based on the work of:
+
+    Ahmad Fatoum <athreef@cpan.org>, http://a3f.at
 
 COPYRIGHT AND LICENSE
 

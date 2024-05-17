@@ -116,9 +116,22 @@ This module provides Perl bindings for the raylib library using FFI::Platyus.
 This is functional but very low level. You probably want to use L<Raylib::App>
 instead.
 
+=head1 SEE ALSO
+
+L<http://www.raylib.com>
+
+L<Graphics::Raylib>
+
+L<Alien::raylib>
+
 =head1 AUTHOR
 
 Chris Prather <chris@prather.org>
+
+Based on the work of:
+
+Ahmad Fatoum C<< <athreef@cpan.org> >>, L<http://a3f.at>
+
 
 =head1 COPYRIGHT AND LICENSE
 
