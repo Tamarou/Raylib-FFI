@@ -77,6 +77,10 @@ class Raylib::App {
     method height { $height = GetScreenHeight() }
     method width  { $width  = GetScreenWidth() }
 
+    method key_pressed {
+        return GetKeyPressed();
+    }
+
     method DESTROY { CloseWindow() }
 }
 

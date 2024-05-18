@@ -91,9 +91,17 @@ $ffi->attach( SetTargetFPS      => ['int']                        => 'void' );
 $ffi->attach( WindowShouldClose => []                             => 'bool' );
 $ffi->attach( IsWindowReady     => []                             => 'bool' );
 $ffi->attach( TakeScreenshot    => [qw(string)]                   => 'void' );
+
+# Load Images
 $ffi->attach( LoadImage => [qw(string)] => 'record(Raylib::FFI::Image)' );
 $ffi->attach( LoadImageFromTexture => ['record(Raylib::FFI::Texture)'] =>
       'record(Raylib::FFI::Image)' );
+$ffi->attach(
+    LoadImageSvg => [qw(string int int)] => 'record(Raylib::FFI::Image)' );
+$ffi->attach( LoadImageFromMemory => [ 'string', 'buffer', 'int' ] =>
+      'record(Raylib::FFI::Image)' );
+
+# Load textures
 $ffi->attach( LoadTexture => [qw(string)] => 'record(Raylib::FFI::Texture)' );
 $ffi->attach( LoadTextureFromImage => ['record(Raylib::FFI::Image)'] =>
       'record(Raylib::FFI::Texture)' );
@@ -101,6 +109,9 @@ $ffi->attach( UnloadTexture => ['record(Raylib::FFI::Texture)'] => 'void' );
 $ffi->attach(
     DrawTexture => [qw(record(Raylib::FFI::Texture) int int Color)] => 'void' );
 $ffi->attach( UnloadImage => ['record(Raylib::FFI::Image)'] => 'void' );
+
+# Keyboard
+$ffi->attach( GetKeyPressed => [] => 'int' );
 
 sub import {
     export_lexically(
@@ -112,6 +123,7 @@ sub import {
         EndDrawing        => \&EndDrawing,
         GetScreenHeight   => \&GetScreenHeight,
         GetScreenWidth    => \&GetScreenWidth,
+        GetKeyPressed     => \&GetKeyPressed,
         GetFPS            => \&GetFPS,
         InitAudioDevice   => \&InitAudioDevice,
         InitWindow        => \&InitWindow,
