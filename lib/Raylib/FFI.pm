@@ -14,6 +14,41 @@ my $ffi = FFI::Platypus->new(
     lib => find_lib_or_die( lib => 'raylib', alien => 'Alien::raylib' ),
 );
 
+package Raylib::FFI::Image {
+    use FFI::Platypus::Record;
+    use overload
+      bool     => sub { 1 },
+      fallback => 1;
+
+    $ffi->load_custom_type( '::PointerSizeBuffer' => 'buffer' );
+    record_layout_1(
+        $ffi,
+        opaque => 'data',
+        int    => 'width',
+        int    => 'height',
+        int    => 'mipmaps',
+        int    => 'format',
+    );
+}
+
+package Raylib::FFI::Texture {
+    use FFI::Platypus::Record;
+    use overload
+      bool     => sub { 1 },
+      fallback => 1;
+
+    record_layout_1(
+        $ffi,
+        qw(
+          uint     id
+          int      width
+          int      height
+          int      mipmaps
+          int      format
+        )
+    );
+}
+
 package Raylib::FFI::Color {
     use FFI::Platypus::Record;
     use overload
@@ -56,6 +91,16 @@ $ffi->attach( SetTargetFPS      => ['int']                        => 'void' );
 $ffi->attach( WindowShouldClose => []                             => 'bool' );
 $ffi->attach( IsWindowReady     => []                             => 'bool' );
 $ffi->attach( TakeScreenshot    => [qw(string)]                   => 'void' );
+$ffi->attach( LoadImage => [qw(string)] => 'record(Raylib::FFI::Image)' );
+$ffi->attach( LoadImageFromTexture => ['record(Raylib::FFI::Texture)'] =>
+      'record(Raylib::FFI::Image)' );
+$ffi->attach( LoadTexture => [qw(string)] => 'record(Raylib::FFI::Texture)' );
+$ffi->attach( LoadTextureFromImage => ['record(Raylib::FFI::Image)'] =>
+      'record(Raylib::FFI::Texture)' );
+$ffi->attach( UnloadTexture => ['record(Raylib::FFI::Texture)'] => 'void' );
+$ffi->attach(
+    DrawTexture => [qw(record(Raylib::FFI::Texture) int int Color)] => 'void' );
+$ffi->attach( UnloadImage => ['record(Raylib::FFI::Image)'] => 'void' );
 
 sub import {
     export_lexically(

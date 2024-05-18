@@ -1,4 +1,5 @@
 use 5.38.2;
+use experimental 'builtin';
 use builtin 'export_lexically';
 
 package Raylib::Color {
@@ -35,6 +36,16 @@ package Raylib::Color {
             return rgba( $r, $g, $b );
         }
 
+    }
+
+    sub rainbow ( $cycle = 0, $colors = 7, $freq = 5 / $colors, $last = 0 ) {
+        return sub {
+            my $r = int( sin( $freq * abs($cycle) + 0 ) * (127) + 128 );
+            my $g = int( sin( $freq * abs($cycle) + 1 ) * (127) + 128 );
+            my $b = int( sin( $freq * abs($cycle) + 3 ) * (127) + 128 );
+            $cycle *= -1 if ++$cycle == $colors;
+            return rgba( $r, $g, $b );
+        }
     }
 
     use constant LIGHTGRAY => rgba( 200, 200, 200 );

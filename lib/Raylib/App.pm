@@ -2,6 +2,7 @@ use 5.38.2;
 use experimental 'class';
 
 use Raylib::Text;
+use Raylib::Texture;
 
 class Raylib::App {
     use Raylib::FFI;
