@@ -14,11 +14,52 @@ my $ffi = FFI::Platypus->new(
     lib => find_lib_or_die( lib => 'raylib', alien => 'Alien::raylib' ),
 );
 
+package Raylib::FFI::Rectangle {
+    use FFI::Platypus::Record;
+    use overload
+      '""'     => sub { shift->as_string },
+      fallback => 1;
+    record_layout_1(
+        $ffi,
+        qw(
+          float    x
+          float    y
+          float    width
+          float    height
+        )
+    );
+
+    sub as_string {
+        my ($self) = @_;
+        sprintf "Rectangle(x:%f y:%f width:%f height:%f)", $self->x, $self->y,
+          $self->width, $self->height;
+    }
+}
+
+package Raylib::FFI::Vector2D {
+    use FFI::Platypus::Record;
+    use overload
+      '""'     => sub { shift->as_string },
+      fallback => 1;
+
+    record_layout_1(
+        $ffi,
+        qw(
+          float    x
+          float    y
+        )
+    );
+
+    sub as_string {
+        my ($self) = @_;
+        sprintf "(x:%f y:%f)", $self->x, $self->y;
+    }
+}
+
 package Raylib::FFI::Image {
     use FFI::Platypus::Record;
     use overload
-      bool     => sub { 1 },
-      fallback => 1;
+      bool => sub { 1 };
 
     $ffi->load_custom_type( '::PointerSizeBuffer' => 'buffer' );
     record_layout_1(
@@ -34,8 +75,7 @@ package Raylib::FFI::Image {
 package Raylib::FFI::Texture {
     use FFI::Platypus::Record;
     use overload
-      bool     => sub { 1 },
-      fallback => 1;
+      bool => sub { 1 };
 
     record_layout_1(
         $ffi,
@@ -74,63 +114,91 @@ package Raylib::FFI::Color {
 
 }
 
-$ffi->type( 'record(Raylib::FFI::Color)' => 'Color' );
+$ffi->type( 'record(Raylib::FFI::Color)'     => 'Color' );
+$ffi->type( 'record(Raylib::FFI::Vector2D)'  => 'Vector2D' );
+$ffi->type( 'record(Raylib::FFI::Texture)'   => 'Texture' );
+$ffi->type( 'record(Raylib::FFI::Image)'     => 'Image' );
+$ffi->type( 'record(Raylib::FFI::Rectangle)' => 'Rectangle' );
 
-$ffi->attach( BeginDrawing      => []                             => 'void' );
-$ffi->attach( ClearBackground   => ['Color']                      => 'void' );
-$ffi->attach( CloseWindow       => []                             => 'void' );
-$ffi->attach( DrawFPS           => [qw(int int)]                  => 'void' );
-$ffi->attach( DrawText          => [qw(string int int int Color)] => 'void' );
-$ffi->attach( EndDrawing        => []                             => 'void' );
-$ffi->attach( GetScreenHeight   => []                             => 'int' );
-$ffi->attach( GetScreenWidth    => []                             => 'int' );
-$ffi->attach( GetFPS            => []                             => 'int' );
-$ffi->attach( InitAudioDevice   => []                             => 'void' );
-$ffi->attach( InitWindow        => [qw(int int string)]           => 'void' );
-$ffi->attach( SetTargetFPS      => ['int']                        => 'void' );
-$ffi->attach( WindowShouldClose => []                             => 'bool' );
-$ffi->attach( IsWindowReady     => []                             => 'bool' );
-$ffi->attach( TakeScreenshot    => [qw(string)]                   => 'void' );
+$ffi->attach( BeginDrawing    => []                             => 'void' );
+$ffi->attach( ClearBackground => ['Color']                      => 'void' );
+$ffi->attach( CloseWindow     => []                             => 'void' );
+$ffi->attach( DrawFPS         => [qw(int int)]                  => 'void' );
+$ffi->attach( DrawText        => [qw(string int int int Color)] => 'void' );
+$ffi->attach( DrawLine        => [qw(int int int int Color)]    => 'void' );
+$ffi->attach(
+    DrawRectanglePro => [qw(Rectangle Vector2D int Color)] => 'void' );
+$ffi->attach( EndDrawing        => []                   => 'void' );
+$ffi->attach( GetScreenHeight   => []                   => 'int' );
+$ffi->attach( GetScreenWidth    => []                   => 'int' );
+$ffi->attach( GetFPS            => []                   => 'int' );
+$ffi->attach( InitAudioDevice   => []                   => 'void' );
+$ffi->attach( InitWindow        => [qw(int int string)] => 'void' );
+$ffi->attach( SetTargetFPS      => ['int']              => 'void' );
+$ffi->attach( WindowShouldClose => []                   => 'bool' );
+$ffi->attach( IsWindowReady     => []                   => 'bool' );
+$ffi->attach( TakeScreenshot    => [qw(string)]         => 'void' );
 
 # Load Images
-$ffi->attach( LoadImage => [qw(string)] => 'record(Raylib::FFI::Image)' );
-$ffi->attach( LoadImageFromTexture => ['record(Raylib::FFI::Texture)'] =>
-      'record(Raylib::FFI::Image)' );
-$ffi->attach(
-    LoadImageSvg => [qw(string int int)] => 'record(Raylib::FFI::Image)' );
-$ffi->attach( LoadImageFromMemory => [ 'string', 'buffer', 'int' ] =>
-      'record(Raylib::FFI::Image)' );
+$ffi->attach( IsImageReady        => ['Image']                     => 'bool' );
+$ffi->attach( LoadImage           => [qw(string)]                  => 'Image' );
+$ffi->attach( LoadImageFromMemory => [ 'string', 'buffer', 'int' ] => 'Image' );
+$ffi->attach( LoadImageFromTexture => ['Texture']                  => 'Image' );
+$ffi->attach( LoadImageSvg         => [qw(string int int)]         => 'Image' );
+$ffi->attach( UnloadImage          => ['Image']                    => 'void' );
 
 # Load textures
-$ffi->attach( LoadTexture => [qw(string)] => 'record(Raylib::FFI::Texture)' );
-$ffi->attach( LoadTextureFromImage => ['record(Raylib::FFI::Image)'] =>
-      'record(Raylib::FFI::Texture)' );
-$ffi->attach( UnloadTexture => ['record(Raylib::FFI::Texture)'] => 'void' );
+$ffi->attach( DrawTexture  => [qw(Texture int int Color)]  => 'void' );
+$ffi->attach( DrawTextureV => [qw(Texture Vector2D Color)] => 'void' );
 $ffi->attach(
-    DrawTexture => [qw(record(Raylib::FFI::Texture) int int Color)] => 'void' );
-$ffi->attach( UnloadImage => ['record(Raylib::FFI::Image)'] => 'void' );
+    DrawTextureRec => [qw(Texture Rectangle Vector2D Color)] => 'void' );
+$ffi->attach(
+    DrawTexturePro => [qw(Texture Rectangle Rectangle Vector2D float Color)] =>
+      'void' );
+$ffi->attach( IsTextureReady       => ['Texture']  => 'bool' );
+$ffi->attach( LoadTexture          => [qw(string)] => 'Texture' );
+$ffi->attach( LoadTextureFromImage => ['Image']    => 'Texture' );
+$ffi->attach( UnloadTexture        => ['Texture']  => 'void' );
 
 # Keyboard
-$ffi->attach( GetKeyPressed => [] => 'int' );
+$ffi->attach( GetKeyPressed => []      => 'int' );
+$ffi->attach( IsKeyDown     => ['int'] => 'bool' );
+$ffi->attach( IsKeyReleased => ['int'] => 'bool' );
+$ffi->attach( IsKeyUp       => ['int'] => 'bool' );
 
 sub import {
     export_lexically(
-        BeginDrawing      => \&BeginDrawing,
-        ClearBackground   => \&ClearBackground,
-        CloseWindow       => \&CloseWindow,
-        DrawFPS           => \&DrawFPS,
-        DrawText          => \&DrawText,
-        EndDrawing        => \&EndDrawing,
-        GetScreenHeight   => \&GetScreenHeight,
-        GetScreenWidth    => \&GetScreenWidth,
-        GetKeyPressed     => \&GetKeyPressed,
-        GetFPS            => \&GetFPS,
-        InitAudioDevice   => \&InitAudioDevice,
-        InitWindow        => \&InitWindow,
-        SetTargetFPS      => \&SetTargetFPS,
-        WindowShouldClose => \&WindowShouldClose,
-        IsWindowReady     => \&IsWindowReady,
-        TakeScreenshot    => \&TakeScreenshot,
+        BeginDrawing         => \&BeginDrawing,
+        ClearBackground      => \&ClearBackground,
+        CloseWindow          => \&CloseWindow,
+        DrawFPS              => \&DrawFPS,
+        DrawLine             => \&DrawLine,
+        DrawText             => \&DrawText,
+        DrawTexture          => \&DrawTexture,
+        DrawTextureRec       => \&DrawTextureRec,
+        DrawTexturePro       => \&DrawTexturePro,
+        DrawRectanglePro     => \&DrawRectanglePro,
+        EndDrawing           => \&EndDrawing,
+        GetFPS               => \&GetFPS,
+        GetKeyPressed        => \&GetKeyPressed,
+        GetScreenHeight      => \&GetScreenHeight,
+        GetScreenWidth       => \&GetScreenWidth,
+        InitAudioDevice      => \&InitAudioDevice,
+        InitWindow           => \&InitWindow,
+        IsTextureReady       => \&IsTextureReady,
+        IsImageReady         => \&IsImageReady,
+        IsWindowReady        => \&IsWindowReady,
+        LoadImage            => \&LoadImage,
+        LoadImageFromMemory  => \&LoadImageFromMemory,
+        LoadImageFromTexture => \&LoadImageFromTexture,
+        LoadImageSvg         => \&LoadImageSvg,
+        LoadTexture          => \&LoadTexture,
+        LoadTextureFromImage => \&LoadTextureFromImage,
+        SetTargetFPS         => \&SetTargetFPS,
+        TakeScreenshot       => \&TakeScreenshot,
+        UnloadTexture        => \&UnloadTexture,
+        UnloadImage          => \&UnloadImage,
+        WindowShouldClose    => \&WindowShouldClose,
     );
 }
 

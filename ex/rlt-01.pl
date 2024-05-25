@@ -5,6 +5,8 @@ use experimental 'class';
 use Raylib::App;
 
 class Engine {
+    use Raylib::Keyboard;
+
     my $WIDTH  = 800;
     my $HEIGHT = 500;
 
@@ -23,20 +25,32 @@ class Engine {
         size  => 10,
     );
 
+    field $keyboard = Raylib::Keyboard->new(
+        key_map => {
+
+            # vim keys
+            KEY_H() => sub { $player_x -= 10 },
+            KEY_L() => sub { $player_x += 10 },
+            KEY_K() => sub { $player_y -= 10 },
+            KEY_J() => sub { $player_y += 10 },
+
+            # wasd keys
+            KEY_W() => sub { $player_y -= 10 },
+            KEY_S() => sub { $player_y += 10 },
+            KEY_A() => sub { $player_x -= 10 },
+            KEY_D() => sub { $player_x += 10 },
+
+            # arrow keys
+            KEY_UP()    => sub { $player_y -= 10 },
+            KEY_DOWN()  => sub { $player_y += 10 },
+            KEY_LEFT()  => sub { $player_x -= 10 },
+            KEY_RIGHT() => sub { $player_x += 10 },
+        },
+    );
+
     method run() {
         while ( !$app->exiting ) {
-            my $key = $app->key_pressed;
-            for ($key) {
-                use constant KEY_UP    => 265;
-                use constant KEY_DOWN  => 264;
-                use constant KEY_LEFT  => 263;
-                use constant KEY_RIGHT => 262;
-                if ( $_ == KEY_UP )    { $player_y -= 10 }
-                if ( $_ == KEY_DOWN )  { $player_y += 10 }
-                if ( $_ == KEY_LEFT )  { $player_x -= 10 }
-                if ( $_ == KEY_RIGHT ) { $player_x += 10 }
-            }
-
+            $keyboard->handle_events();
             $app->clear();
             $app->draw( sub { $player->draw( $player_x, $player_y ); } );
         }

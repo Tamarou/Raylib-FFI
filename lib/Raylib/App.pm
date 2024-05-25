@@ -54,7 +54,15 @@ class Raylib::App {
         EndDrawing();
     }
 
+    method draw_line ( $x1, $y1, $x2, $y2, $color ) {
+        DrawLine( $x1, $y1, $x2, $y2, $color );
+    }
+
     method draws (@drawables) {
+        $self->draw_objects(@drawables);
+    }
+
+    method draw_objects (@drawables) {
         BeginDrawing();
         $_->draw for @drawables;
         EndDrawing();

@@ -5,35 +5,31 @@ class Raylib::Image {
     use Raylib::FFI;
     use builtin qw(false);
 
-    field $image : param = undef;
+    field $image : param;
 
-    field $x : param;
-    field $y : param;
-
-    sub new_from_file ($file) {
-        __PACKAGE__->new( image => LoadImage($file) );
-    }
-
-    sub new_from_texture ($texture) {
-        __PACKAGE__->new( image => LoadImageFromTexture($texture) );
-    }
-
-    sub new_from_svg ( $svg, $w, $h ) {
-        __PACKAGE__->new( image => LoadImageSVG( $svg, $w, $h ) );
-    }
-
-    sub new_from_scalar ( $fmt, $data, $size ) {
-        __PACKAGE__->new( image => LoadImageFromMemory( $fmt, $data, $size ) );
-    }
+    field $x : param = 0;
+    field $y : param = 0;
 
     ADJUST {
+        unless ( $image isa Rayli::FFI::Image ) {
+            if ( ref $image eq 'SCALAR' ) {
+                $image = LoadImageFromMemory($image);
+            }
+            else {
+                $image = LoadImage($image);
+            }
+        }
         unless ( IsImageReady($image) ) {
             die "Failed to load image";
         }
     }
 
-    method draw() {
-        Raylib::Texture->new_from_image($image)->draw();
+    method as_texture() {
+        Raylib::Texture->new( texture => LoadTextureFromImage($image) );
+    }
+
+    method draw ( $x = $x, $y = $y ) {
+        $self->as_texture->draw( $x, $y );
     }
 
     method DESTROY {
@@ -45,41 +41,59 @@ class Raylib::Texture {
     use Raylib::FFI;
     use Raylib::Color;
 
+    field $texture : param;
+
     field $x : param    = 0;
     field $y : param    = 0;
     field $tint : param = WHITE;
 
-    field $texture : param = undef;
-
-    sub new_from_file ( $file, $x = 0, $y = 0, $tint = WHITE ) {
-        __PACKGE__->new(
-            image => LoadTexture($file),
-            x     => $x,
-            y     => $y,
-            tint  => $tint
-        );
-    }
-
-    sub new_from_image ( $image, $x = 0, $y = 0, $tint = WHITE ) {
-        __PACKAGE__->new(
-            image => LoadTextureFromImage($image),
-            x     => $x,
-            y     => $y,
-            tint  => $tint,
-        );
-    }
-
     ADJUST {
+        unless ( $texture isa Raylib::FFI::Texture ) {
+            $texture = LoadTexture($texture);
+        }
         unless ( IsTextureReady($texture) ) {
             die "Failed to load texture";
         }
     }
 
-    method draw() {
+    method x()      { $x }
+    method y()      { $y }
+    method height() { $texture->height }
+    method width()  { $texture->width }
+
+    method pos_vector() {
+        Raylib::FFI::Vector2D->new( x => $x, y => $y );
+    }
+
+    method move ( $dx, $dy ) {
+        $x += $dx;
+        $y += $dy;
+    }
+
+    method draw ( $x = $x, $y = $y, $tint = $tint ) {
         DrawTexture( $texture, $x, $y, $tint );
     }
 
+    method draw_rectangle ( $rect, $x = $x, $y = $y, $tint = $tint ) {
+        my $pos = Raylib::FFI::Vector2D->new( x => $x, y => $y );
+        DrawTextureRec( $texture, $rect, $pos, $tint );
+    }
+
+    method draw_pro (
+        $src,
+        $dst,
+        $origin =
+          Raylib::FFI::Vector2D->new( x => $dst->width, y => $dst->height ),
+        $rot = 0,
+        $tint = $tint
+      )
+    {
+        DrawTexturePro( $texture, $src, $dst, $origin, $rot, $tint );
+    }
+
     method DESTROY {
-        UnloadTexture($texture);
+        if ( $texture isa Raylib::FFI::Texture ) {
+            UnloadTexture($texture);
+        }
     }
 }
