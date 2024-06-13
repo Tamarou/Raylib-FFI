@@ -30,6 +30,14 @@ class Raylib::App {
         );
     }
 
+    method toggle_fullscreen {
+        ToggleFullscreen();
+    }
+
+    method toggle_borderless_windowed {
+        ToggleBorderlessWindowed();
+    }
+
     method fps ( $new_fps = undef ) {
         if ( defined $new_fps ) {
             $fps = $new_fps;

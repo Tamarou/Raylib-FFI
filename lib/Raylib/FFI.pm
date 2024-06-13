@@ -450,6 +450,7 @@ my %functions = (
     SetWindowState           => [ ['int']              => 'void' ],
     ClearWindowState         => [ ['int']              => 'void' ],
     ToggleFullscreen         => [ []                   => 'void' ],
+    ToggleBorderlessWindowed => [ []                   => 'void' ],
     MaximizeWindow           => [ []                   => 'void' ],
     MinimizeWindow           => [ []                   => 'void' ],
     RestoreWindow            => [ []                   => 'void' ],
@@ -528,8 +529,7 @@ my %functions = (
     UnloadShader          => [ ['Shader']                           => 'void' ],
 
     # Screen-space-related functions
-    GetMouseRay         => [ [ 'Vector2D', 'Camera3D' ] => 'Ray' ],
-    GetScreenToWorldRay => [ [ 'Vector2D', 'Camera3D' ] => 'Ray' ],
+    GetMouseRay        => [ [ 'Vector2D', 'Camera3D' ]          => 'Ray' ],
     GetWorldToScreenEx => [ [ 'Vector3D', 'Camera3D', 'float' ] => 'Vector2D' ],
     GetScreenToWorld2D => [ [ 'Vector2D', 'Camera2D' ]          => 'Vector2D' ],
     GetCameraMatrix    => [ ['Camera3D']                        => 'Matrix' ],
@@ -883,7 +883,6 @@ my %functions = (
 
     # text strigns management functions (not utf8 strings)
     TextToInteger => [ ['string'] => 'int' ],
-    TextToFloat   => [ ['string'] => 'float' ],
 
     # Basic geometric 3D shapes drawing functions
     DrawLine3D   => [ [ 'Vector3D', 'Vector3D', 'Color' ]          => 'void' ],
@@ -1304,6 +1303,10 @@ Clear window configuration state flags.
 
 Toggle window state: fullscreen/windowed (only PLATFORM_DESKTOP).
 
+=head2 ToggleBorderlessWindowed()
+
+Toggle window state: borderless/fullscreen (only PLATFORM_DESKTOP).
+
 =head2 MaximizeWindow()
 
 Set window state: maximized, if resizable (only PLATFORM_DESKTOP).
@@ -1568,7 +1571,6 @@ Set shader uniform value for texture (sampler2d)
 
 Unload shader from GPU memory (VRAM).
 
-=head2 GetScreenToWorldRay( $position, $camera ) : Raylib::FFI::Ray
 =head2 GetMouseRay( $position, $camera ) : Raylib::FFI::Ray # DEPRECATED
 
 Get a ray trace from screen space (i.e. mouse position)
@@ -2648,10 +2650,6 @@ Encode one codepoint into UTF-8 byte array (array length returned as parameter)
 =head2 TextToInteger( $text ) : int
 
 Get integer value from text (negative values not supported)
-
-=head2 TextToFloat( $text ) : float
-
-Get float value from text (negative values not supported)
 
 =head2 DrawLine3D( $startPos, $endPos, $color )
 
