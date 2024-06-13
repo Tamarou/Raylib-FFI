@@ -528,9 +528,8 @@ my %functions = (
     UnloadShader          => [ ['Shader']                           => 'void' ],
 
     # Screen-space-related functions
-    GetMouseRay           => [ [ 'Vector2D', 'Camera3D' ] => 'Ray' ],
-    GetScreenToWorldRay   => [ [ 'Vector2D', 'Camera3D' ] => 'Ray' ],
-    GetScreenToWorldRayEx => [ [ 'Vector3D', 'Camera3D' ] => 'Ray' ],
+    GetMouseRay         => [ [ 'Vector2D', 'Camera3D' ] => 'Ray' ],
+    GetScreenToWorldRay => [ [ 'Vector2D', 'Camera3D' ] => 'Ray' ],
     GetWorldToScreenEx => [ [ 'Vector3D', 'Camera3D', 'float' ] => 'Vector2D' ],
     GetScreenToWorld2D => [ [ 'Vector2D', 'Camera2D' ]          => 'Vector2D' ],
     GetCameraMatrix    => [ ['Camera3D']                        => 'Matrix' ],
@@ -565,17 +564,16 @@ my %functions = (
     SetExitKey         => [ ['int'] => 'void' ],
 
     # Input-related functions: gamepads
-    IsGamepadAvailable      => [ ['int']                     => 'bool' ],
-    GetGamepadName          => [ ['int']                     => 'string' ],
-    IsGamepadButtonPressed  => [ [ 'int', 'int' ]            => 'bool' ],
-    IsGamepadButtonDown     => [ [ 'int', 'int' ]            => 'bool' ],
-    IsGamepadButtonReleased => [ [ 'int', 'int' ]            => 'bool' ],
-    IsGamepadButtonUp       => [ [ 'int', 'int' ]            => 'bool' ],
-    GetGamepadButtonPressed => [ []                          => 'int' ],
-    GetGamepadAxisCount     => [ ['int']                     => 'int' ],
-    GetGamepadAxisMovement  => [ [ 'int', 'int' ]            => 'float' ],
-    SetGamepadMappings      => [ ['string']                  => 'void' ],
-    SetGamepadVibration     => [ [ 'int', 'float', 'float' ] => 'void' ],
+    IsGamepadAvailable      => [ ['int']          => 'bool' ],
+    GetGamepadName          => [ ['int']          => 'string' ],
+    IsGamepadButtonPressed  => [ [ 'int', 'int' ] => 'bool' ],
+    IsGamepadButtonDown     => [ [ 'int', 'int' ] => 'bool' ],
+    IsGamepadButtonReleased => [ [ 'int', 'int' ] => 'bool' ],
+    IsGamepadButtonUp       => [ [ 'int', 'int' ] => 'bool' ],
+    GetGamepadButtonPressed => [ []               => 'int' ],
+    GetGamepadAxisCount     => [ ['int']          => 'int' ],
+    GetGamepadAxisMovement  => [ [ 'int', 'int' ] => 'float' ],
+    SetGamepadMappings      => [ ['string']       => 'void' ],
 
     # Input-related functions: mouse
     IsMouseButtonPressed  => [ ['int']           => 'bool' ],
@@ -617,8 +615,6 @@ my %functions = (
 
     # Set texture and rectangle to be used on shapes drawing
     SetShapesTexture => [ [ 'Texture2D', 'Rectangle' ] => 'void' ],
-    GetShapesTexture => [ []                           => 'Texture2D' ],
-    GetShapesTextureRectangle => [ [] => 'Rectangle' ],
 
     # Basic shapes drawing functions
     DrawPixel             => [ [qw(int int)]                       => 'void' ],
@@ -651,9 +647,6 @@ my %functions = (
     DrawRectangleLinesEx    => [ [ 'Rectangle', 'float' ]          => 'void' ],
     DrawRectangleRounded    => [ [ 'Rectangle', 'float', 'int' ]   => 'void' ],
     DrawRectangleRoundedLines => [ [ 'Rectangle', 'float', 'int' ] => 'void' ],
-
-    DrawRectangleRoundedLinesEx =>
-      [ [ 'Rectangle', 'float', 'int', 'int' ] => 'void' ],
 
     DrawTriangle      => [ [ 'Vector2D', 'Vector2D', 'Vector2D' ]   => 'void' ],
     DrawTriangleLines => [ [ 'Vector2D', 'Vector2D', 'Vector2D' ]   => 'void' ],
@@ -700,9 +693,6 @@ my %functions = (
     CheckCollisionPointLine =>
       [ [ 'Vector2D', 'Vector2D', 'Vector2D', 'Vector2D' ] => 'bool' ],
 
-    CheckCollisionCircleLine =>
-      [ [ 'Vector2D', 'float', 'Vector2D', 'Vector2D' ] => 'bool' ],
-
     GetCollisionRec => [ [ 'Rectangle', 'Rectangle' ] => 'Rectangle' ],
 
     # Image loading functions
@@ -711,13 +701,12 @@ my %functions = (
     LoadImageSvg  => [ ['string']                         => 'Image' ],
     LoadImageAnim => [ [ 'string', 'int' ]                => 'Image' ],
 
-    LoadImageAnimFromMemory => [ [ 'string', 'string', 'int' ] => 'Image' ],
-    LoadImageFromMemory     => [ [ 'string', 'string' ]        => 'Image' ],
-    LoadImageFromTexture    => [ ['Texture2D']                 => 'Image' ],
-    LoadImageFromScreen     => [ []                            => 'Image' ],
-    IsImageReady            => [ ['Image']                     => 'bool' ],
-    UnloadImage             => [ ['Image']                     => 'void' ],
-    ExportImage             => [ [ 'Image', 'string' ]         => 'void' ],
+    LoadImageFromMemory  => [ [ 'string', 'string' ] => 'Image' ],
+    LoadImageFromTexture => [ ['Texture2D']          => 'Image' ],
+    LoadImageFromScreen  => [ []                     => 'Image' ],
+    IsImageReady         => [ ['Image']              => 'bool' ],
+    UnloadImage          => [ ['Image']              => 'void' ],
+    ExportImage          => [ [ 'Image', 'string' ]  => 'void' ],
 
     # Image generation functions
     GenImageColor          => [ [ 'int', 'int', 'Color' ] => 'Image' ],
@@ -746,8 +735,6 @@ my %functions = (
     ImageAlphaPremultiply => [ ['Image']                     => 'void' ],
     ImageBlurGaussian     => [ [ 'Image', 'float' ]          => 'void' ],
 
-    ImageKernelConvolution =>
-      [ [ 'Image', 'int', 'int', 'float*', 'int' ] => 'void' ],
     ImageResize       => [ [ 'Image', 'int', 'int' ] => 'void' ],
     ImageResizeNN     => [ [ 'Image', 'int', 'int' ] => 'void' ],
     ImageResizeCanvas =>
@@ -836,7 +823,6 @@ my %functions = (
     ],
 
     # Color/pixel related functions
-    ColorIsEqual        => [ [ 'Color', 'Color' ]               => 'bool' ],
     Fade                => [ [ 'Color', 'float' ]               => 'Color' ],
     ColorToInt          => [ ['Color']                          => 'int' ],
     ColorNormalize      => [ ['Color']                          => 'Color' ],
@@ -1587,10 +1573,6 @@ Unload shader from GPU memory (VRAM).
 
 Get a ray trace from screen space (i.e. mouse position)
 
-=head2 GetScreenToWorldRayEx( $position, $camera ) : Raylib::FFI::Ray
-
-Get the screen space position for a 3d world space position.
-
 =head2 GetWorldToScreenEx( $position, $camera, $width, $height ) : Raylib::FFI::Vector2D
 
 Get size position for a 3d world space position
@@ -1749,10 +1731,6 @@ Get axis movement value for a gamepad axis
 
 Set internal gamepad mappings
 
-=head2 SetGamepadVibration( $gamepad, $leftSpeed, $rightSpeed )
-
-Set gamepad vibration for both motors
-
 =head2 IsMouseButtonPressed( $button ) : bool
 
 Check if a mouse button has been pressed once
@@ -1873,10 +1851,6 @@ Uppdate camera movement/rotation
 
 Set texture and rectangle to be used on shapes drawing
 
-=head2 GetShapesTexture() : Raylib::FFI::Texture2D
-
-Get texture that is used on shapes drawing
-
 =head2 GetShapesTextureRec() : Raylib::FF::Rectangle
 
 Get texture rectangle to be used on shapes drawing
@@ -1996,10 +1970,6 @@ Draw rectangle with rounded edges
 =head2 DrawRectangleRoundedLines( $rec, $roundness, $segments, $lineThick, $color )
 
 Draw rectangle lines with rounded edges
-
-=head2 DrawRectangleRoundedLinesEx( $rec, $roundness, $segments, $lineThick, $color )
-
-Draw rectangle with rounded edges outline
 
 =head2 DrawTriangle( $v1, $v2, $v3 )
 
@@ -2130,9 +2100,6 @@ Check the collision between two lines defined by two points each, returns collis
 
 Check if point belongs to line created between two points [p1] and [p2] with defined margin in pixels [threshold]
 
-=head2 CheckCollisionCircleLine( $center, $radius, $p1, $p2, $threshold ) : bool
-
-Check if circle collides with a line created betweeen two points [p1] and [p2]
 
 =head2 GetCollisionRec( $rec1, $rec2 ) : Raylib::FFI::Rectangle
 
@@ -2156,11 +2123,6 @@ NOTE: This function does not require GPU access
 =head2 LoadImageAnim( $fileName, $frames ) : Raylib::FFI::Image
 
 Load image sequence from file (frames appended to image.data)
-NOTE: This function does not require GPU access
-
-=head2 LoadImageAnimFromMemory( $fileType, $fileData, $dataSize, $frames ) : Raylib::FFI::Image
-
-Load image sequence from memory buffer
 NOTE: This function does not require GPU access
 
 =head2 LoadImageFromMemory( $fileType, $fileData, $dataSize ) : Raylib::FFI::Image
@@ -2273,10 +2235,6 @@ Premultiply alpha channel
 =head2 ImageBlurGaussian( $image, $blurSize, $threshold )
 
 Apply Gaussian blur using a box blur approximation
-
-=head2 ImageKernelConvolution( $image, $kernel, $stepX, $stepY )
-
-Apply Custom Square image convolution kernel
 
 =head2 ImageResize( $image, $newWidth, $newHeight )
 
@@ -2510,9 +2468,6 @@ Draw a part of a texture defined by a rectangle with 'pro' parameters
 
 Draws a texture (or part of it) that stretches or shrinks nicely
 
-=head2 ColorIsEqual( $c1, $c2 ) : bool
-
-Check if two colors are equal
 
 =head2 Fade( $color, $alpha ) : Raylib::FFI::Color
 
@@ -3208,35 +3163,6 @@ Default size for new audio streams
 
 =head1 KNOWN ISSUES
 
-For some reason on my machine the following functions are not found, I've left
-them in for now incase this is a problem specifically on my machine.
-
-=over 4
-
-=item CheckCollisionCircleLine
-
-=item ColorIsEqual
-
-=item DrawRectangleRoundedLinesEx
-
-=item GetScreenToWorldRay
-
-=item GetScreenToWorldRayEx
-
-=item GetShapesTexture
-
-=item GetShapesTextureRectangle
-
-=item ImageKernelConvolution
-
-=item LoadImageAnimFromMemory
-
-=item SetGamepadVibration
-
-=item TextToFloat
-
-=back
-
 Also, this module was put together very quickly, and it's not very well tested.
 There may be differences between the documentation and the underlying library.
 The library is correct, please let me know if you find any issues.
@@ -3268,6 +3194,8 @@ the same terms as the Perl 5 programming language system itself.
 
 This is an unofficial wrapper of L<http://www.raylib.com>.
 
-raylib is Copyright (c) 2013-2016 Ramon Santamaria and available under the terms of the zlib/libpng license. Refer to C<XS/LICENSE.md> for full terms.
+raylib is Copyright (c) 2013-2016 Ramon Santamaria and available under the
+terms of the zlib/libpng license. Refer to
+L<LICENSE|https://github.com/raysan5/raylib/blob/5.0/LICENSE> for full terms.
 
 =cut
