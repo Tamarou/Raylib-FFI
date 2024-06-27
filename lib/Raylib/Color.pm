@@ -1,5 +1,4 @@
 use 5.38.2;
-use experimental 'builtin';
 use builtin 'export_lexically';
 
 package Raylib::Color {

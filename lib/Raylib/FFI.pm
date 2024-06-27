@@ -1,5 +1,4 @@
-use 5.38.2;
-use experimental 'builtin';
+use 5.40.0;
 use experimental 'try';
 
 package Raylib::FFI;

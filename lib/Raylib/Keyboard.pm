@@ -1,5 +1,5 @@
 use 5.38.2;
-use experimental qw(builtin class);
+use experimental qw(class);
 use builtin 'export_lexically';
 
 class Raylib::Keyboard {
