@@ -33,7 +33,9 @@
             "FFI::C" : "0",
             "FFI::CheckLib" : "0",
             "FFI::Platypus" : "0",
-            "File::Share" : "0"
+            "File::Share" : "0",
+            "Module::Build::Tiny" : "0",
+            "builtin::Backport" : "0"
          }
       }
    },

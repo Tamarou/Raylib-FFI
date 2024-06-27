@@ -101,6 +101,8 @@ requires:
   FFI::CheckLib: '0'
   FFI::Platypus: '0'
   File::Share: '0'
+  Module::Build::Tiny: '0'
+  builtin::Backport: '0'
 version: '0.01'
 x_serialization_backend: 'CPAN::Meta::YAML version 0.018'
 x_spdx_expression: 'Artistic-1.0-Perl OR GPL-1.0-or-later'
