@@ -1,4 +1,4 @@
-name: Test
+name: Test Installation
 
 on:
   push:
@@ -12,7 +12,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        #os: [ubuntu-latest, macos-latest] # for now we drop windows
         os: [ubuntu-latest, macos-latest, windows-latest]
         perl-version: ['5.38', '5.40']
         
@@ -21,7 +20,9 @@ jobs:
     
     steps:
       - uses: actions/checkout@v4
-      
+      - uses: shogo82148/actions-setup-perl@v1
+        with:
+          perl-version: ${{ matrix.perl-version }} 
       - name: Install System Dependencies (Linux)
         if: runner.os == 'Linux'
         run: |
@@ -37,6 +38,19 @@ jobs:
                                   libxinerama-dev \
                                   libwayland-dev \
                                   libxkbcommon-dev
+
+      - name: Install Alien-raylib5
+        uses: perl-actions/install-with-cpanm@v1.7
+        with:
+          install: https://github.com/perigrin/Alien-raylib5.git
+          verbose: true
+
+      # as of right now 6.2 doesn't pass tests so we install it by hand
+      - name: Install Module::Pluggable 
+        uses: perl-actions/install-with-cpanm@v1.7
+        with:
+          install: Module::Pluggable
+          tests: false  
 
       - name: Build and Test
         uses: perl-actions/install-with-cpanm@v1.7
