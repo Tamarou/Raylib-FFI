@@ -47,6 +47,13 @@ jobs:
           install: Module::Pluggable
           tests: false
 
+      - name: Install Path::Tiny (it fails on windows)
+        uses: perl-actions/install-with-cpanm@v1.7
+        if: runner.os == 'Windows'
+        with:
+          tests: false
+          install: Path::Tiny
+
       - name: Build and Test
         uses: perl-actions/install-with-cpanm@v1.7
         with:
