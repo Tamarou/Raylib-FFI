@@ -14,20 +14,20 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
         perl-version: ['5.38', '5.40']
-        
+
     runs-on: ${{ matrix.os }}
     name: Perl ${{ matrix.perl-version }} on ${{ matrix.os }}
-    
+
     steps:
       - uses: actions/checkout@v4
       - uses: shogo82148/actions-setup-perl@v1
         with:
-          perl-version: ${{ matrix.perl-version }} 
+          perl-version: ${{ matrix.perl-version }}
       - name: Install System Dependencies (Linux)
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential libssl-dev zlib1g-dev 
+          sudo apt-get install -y build-essential libssl-dev zlib1g-dev
           sudo apt-get install -y libasound2-dev \
                                   libx11-dev \
                                   libxrandr-dev \
@@ -39,18 +39,13 @@ jobs:
                                   libwayland-dev \
                                   libxkbcommon-dev
 
-      - name: Install Alien-raylib5
-        uses: perl-actions/install-with-cpanm@v1.7
-        with:
-          install: https://github.com/perigrin/Alien-raylib5.git
-          verbose: true
 
       # as of right now 6.2 doesn't pass tests so we install it by hand
-      - name: Install Module::Pluggable 
+      - name: Install Module::Pluggable
         uses: perl-actions/install-with-cpanm@v1.7
         with:
           install: Module::Pluggable
-          tests: false  
+          tests: false
 
       - name: Build and Test
         uses: perl-actions/install-with-cpanm@v1.7
@@ -59,4 +54,4 @@ jobs:
           local-lib: "./local"
           tests: true
           verbose: true
-     
+
