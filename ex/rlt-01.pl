@@ -29,22 +29,22 @@ class Engine {
         key_map => {
 
             # vim keys
-            KEY_H() => sub { $player_x -= 10 },
-            KEY_L() => sub { $player_x += 10 },
-            KEY_K() => sub { $player_y -= 10 },
-            KEY_J() => sub { $player_y += 10 },
+            KEY_H => sub { $player_x -= 10 },
+            KEY_L => sub { $player_x += 10 },
+            KEY_K => sub { $player_y -= 10 },
+            KEY_J => sub { $player_y += 10 },
 
             # wasd keys
-            KEY_W() => sub { $player_y -= 10 },
-            KEY_S() => sub { $player_y += 10 },
-            KEY_A() => sub { $player_x -= 10 },
-            KEY_D() => sub { $player_x += 10 },
+            KEY_W => sub { $player_y -= 10 },
+            KEY_S => sub { $player_y += 10 },
+            KEY_A => sub { $player_x -= 10 },
+            KEY_D => sub { $player_x += 10 },
 
             # arrow keys
-            KEY_UP()    => sub { $player_y -= 10 },
-            KEY_DOWN()  => sub { $player_y += 10 },
-            KEY_LEFT()  => sub { $player_x -= 10 },
-            KEY_RIGHT() => sub { $player_x += 10 },
+            KEY_UP    => sub { $player_y -= 10 },
+            KEY_DOWN  => sub { $player_y += 10 },
+            KEY_LEFT  => sub { $player_x -= 10 },
+            KEY_RIGHT => sub { $player_x += 10 },
         },
     );
 
