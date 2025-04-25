@@ -5,10 +5,10 @@ class Raylib::Image {
     use Raylib::FFI;
     use builtin qw(false);
 
-    field $image : param;
+    field $image :param;
 
-    field $x : param = 0;
-    field $y : param = 0;
+    field $x :param = 0;
+    field $y :param = 0;
 
     ADJUST {
         unless ( $image isa Rayli::FFI::Image ) {
@@ -41,17 +41,17 @@ class Raylib::Texture {
     use Raylib::FFI;
     use Raylib::Color;
 
-    field $texture : param;
+    field $texture :param;
 
-    field $x : param    = 0;
-    field $y : param    = 0;
-    field $tint : param = WHITE;
+    field $x :param    = 0;
+    field $y :param    = 0;
+    field $tint :param = Raylib::Color::WHITE;
 
     ADJUST {
         unless ( $texture isa Raylib::FFI::Texture ) {
             $texture = LoadTexture($texture);
         }
-        unless ( IsTextureReady($texture) ) {
+        unless ( IsTextureValid($texture) ) {
             die "Failed to load texture";
         }
     }
@@ -97,3 +97,5 @@ class Raylib::Texture {
         }
     }
 }
+
+1;

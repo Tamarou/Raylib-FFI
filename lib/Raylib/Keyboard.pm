@@ -2,6 +2,7 @@ use 5.36.3;
 use Feature::Compat::Class;
 
 class Raylib::Keyboard {
+    use Exporter qw(import);
     use Raylib::FFI;
     our %key_map;
 
@@ -130,7 +131,7 @@ class Raylib::Keyboard {
         *key_pressed  = &Raylib::FFI::GetKeyPressed;
     }
 
-    our @EXPORT_OK( keys %key_map );
+    our @EXPORT = keys %key_map;
 
     field $key_map :param = {};
 
@@ -142,3 +143,4 @@ class Raylib::Keyboard {
     }
 }
 
+1;

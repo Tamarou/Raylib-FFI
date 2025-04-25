@@ -8,17 +8,17 @@ class Raylib::App {
     use Raylib::FFI;
     use Raylib::Color qw();
 
-    field $title : param = $0;
-    field $width : param;
-    field $height : param;
-    field $fps : param        = 60;
-    field $background : param = Raylib::Color::BLACK;
+    field $title :param = $0;
+    field $width :param;
+    field $height :param;
+    field $fps :param        = 60;
+    field $background :param = Raylib::Color::BLACK;
 
     ADJUST {
-        InitWindow( $width, $height, $title );
-        if ( IsWindowReady() ) {
-            SetTargetFPS($fps);
-            ClearBackground($background);
+        Raylib::FFI::InitWindow( $width, $height, $title );
+        if ( Raylib::FFI::IsWindowReady() ) {
+            Raylib::FFI::SetTargetFPS($fps);
+            Raylib::FFI::ClearBackground($background);
         }
     }
 
@@ -31,39 +31,39 @@ class Raylib::App {
     }
 
     method toggle_fullscreen {
-        ToggleFullscreen();
+        Raylib::FFI::ToggleFullscreen();
     }
 
     method toggle_borderless_windowed {
-        ToggleBorderlessWindowed();
+        Raylib::FFI::ToggleBorderlessWindowed();
     }
 
     method fps ( $new_fps = undef ) {
         if ( defined $new_fps ) {
             $fps = $new_fps;
-            SetTargetFPS($fps);
+            Raylib::FFI::SetTargetFPS($fps);
 
         }
-        return $fps = GetFPS();
+        return $fps = Raylib::FFI::GetFPS();
     }
 
     method clear ( $new_color = undef ) {
         if ( defined $new_color ) {
             $background = $new_color;
         }
-        ClearBackground($background);
+        Raylib::FFI::ClearBackground($background);
     }
 
-    method exiting { WindowShouldClose() }
+    method exiting { Raylib::FFI::WindowShouldClose() }
 
     method draw ($code) {
-        BeginDrawing();
+        Raylib::FFI::BeginDrawing();
         $code->();
-        EndDrawing();
+        Raylib::FFI::EndDrawing();
     }
 
     method draw_line ( $x1, $y1, $x2, $y2, $color ) {
-        DrawLine( $x1, $y1, $x2, $y2, $color );
+        Raylib::FFI::DrawLine( $x1, $y1, $x2, $y2, $color );
     }
 
     method draws (@drawables) {
@@ -71,15 +71,15 @@ class Raylib::App {
     }
 
     method draw_objects (@drawables) {
-        BeginDrawing();
+        Raylib::FFI::BeginDrawing();
         $_->draw for @drawables;
-        EndDrawing();
+        Raylib::FFI::EndDrawing();
     }
 
     method draw3d ($code) {
-        BeginDrawing();
+        Raylib::FFI::BeginDrawing();
         $code->();
-        EndDrawing();
+        Raylib::FFI::EndDrawing();
     }
 
     my sub timestamp {
@@ -87,19 +87,20 @@ class Raylib::App {
     }
 
     method screenshot ( $file = ( 'ScreenShot-' . timestamp() . '.png' ) ) {
-        TakeScreenshot($file);
+        Raylib::FFI::TakeScreenshot($file);
     }
 
-    method height { $height = GetScreenHeight() }
-    method width  { $width  = GetScreenWidth() }
+    method height { $height = Raylib::FFI::GetScreenHeight() }
+    method width  { $width  = Raylib::FFI::GetScreenWidth() }
 
     method key_pressed {
         return GetKeyPressed();
     }
 
-    method DESTROY { CloseWindow() }
+    method DESTROY { Raylib::FFI::CloseWindow() }
 }
 
+1;
 __END__
 
 =pod

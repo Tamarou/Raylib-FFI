@@ -559,9 +559,9 @@ my %functions = (
     SetShaderValueTexture => [ [ 'Shader', 'int', 'Texture2D' ]     => 'void' ],
     UnloadShader          => [ ['Shader']                           => 'void' ],
 
-    # Screen-space-related functions
-    GetMouseRay         => [ [ 'Vector2D', 'Camera3D' ] => 'Ray' ], # DEPRECATED
-    GetScreenToWorldRay => [ [ 'Vector2D', 'Camera3D' ] => 'Ray' ],
+   # Screen-space-related functions
+   #GetMouseRay         => [ [ 'Vector2D', 'Camera3D' ] => 'Ray' ], # DEPRECATED
+    GetScreenToWorldRay   => [ [ 'Vector2D', 'Camera3D' ] => 'Ray' ],
     GetScreenToWorldRayEx =>
       [ [ 'Vector2D', 'Camera3D', 'int', 'int' ] => 'Ray' ],
     GetWorldToScreen   => [ [ 'Vector3D', 'Camera3D' ] => 'Vector2D' ],
@@ -736,10 +736,11 @@ my %functions = (
     GetCollisionRec => [ [ 'Rectangle', 'Rectangle' ] => 'Rectangle' ],
 
     # Image loading functions
-    LoadImage     => [ ['string']                         => 'Image' ],
-    LoadImageRaw  => [ [ 'string', 'int', 'int', 'bool' ] => 'Image' ],
-    LoadImageSvg  => [ ['string']                         => 'Image' ],
-    LoadImageAnim => [ [ 'string', 'int' ]                => 'Image' ],
+    LoadImage    => [ ['string']                         => 'Image' ],
+    LoadImageRaw => [ [ 'string', 'int', 'int', 'bool' ] => 'Image' ],
+
+    #LoadImageSvg  => [ ['string']                         => 'Image' ],
+    LoadImageAnim => [ [ 'string', 'int' ] => 'Image' ],
 
     LoadImageFromMemory  => [ [ 'string', 'string' ] => 'Image' ],
     LoadImageFromTexture => [ ['Texture2D']          => 'Image' ],
@@ -1032,11 +1033,12 @@ my %functions = (
     ],
 
     # audio device management
-    InitAudioDevice    => [ []        => 'void' ],
-    CloseAudioDevice   => [ []        => 'void' ],
-    IsAudioDeviceValid => [ []        => 'bool' ],
-    SetMasterVolume    => [ ['float'] => 'void' ],
-    GetMasterVolume    => [ []        => 'float' ],
+    InitAudioDevice  => [ [] => 'void' ],
+    CloseAudioDevice => [ [] => 'void' ],
+
+    #IsAudioDeviceValid => [ []        => 'bool' ],
+    SetMasterVolume => [ ['float'] => 'void' ],
+    GetMasterVolume => [ []        => 'float' ],
 
     # wave/sound loading/unloading
     LoadWave           => [ ['string']                 => 'Wave' ],
@@ -1112,7 +1114,7 @@ for my $func ( keys %functions ) {
 }
 
 # export all the functions lexically
-our @EXPORT_OK = grep { __PACKAGE__->can($_) } keys %functions;
+our @EXPORT = grep { __PACKAGE__->can($_) } keys %functions;
 1;
 __END__
 
