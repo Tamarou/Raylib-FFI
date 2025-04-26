@@ -1,5 +1,5 @@
 use 5.38.0;
-use experimental 'class';
+use experimental qw(class builtin);
 
 use Raylib::Text;
 use Raylib::Texture;
@@ -7,14 +7,24 @@ use Raylib::Texture;
 class Raylib::App {
     use Raylib::FFI;
     use Raylib::Color qw();
+    use builtin       qw(false true);
 
-    field $title : param = $0;
-    field $width : param;
-    field $height : param;
-    field $fps : param        = 60;
-    field $background : param = Raylib::Color::BLACK;
+    field $title :param = $0;
+    field $width :param;
+    field $height :param;
+    field $fps :param        = 60;
+    field $background :param = Raylib::Color::BLACK;
+    field $restart :param    = true;
+    field $should_restart    = false;
 
     ADJUST {
+        if ($restart) {
+            $SIG{HUP} = sub {
+                warn "Caught HUP signal, restarting...";
+                $should_restart = true;
+            };
+        }
+
         InitWindow( $width, $height, $title );
         if ( IsWindowReady() ) {
             SetTargetFPS($fps);
@@ -54,7 +64,7 @@ class Raylib::App {
         ClearBackground($background);
     }
 
-    method exiting { WindowShouldClose() }
+    method exiting { $should_restart || WindowShouldClose() }
 
     method draw ($code) {
         BeginDrawing();

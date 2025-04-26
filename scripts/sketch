@@ -1,0 +1,179 @@
+#!/usr/bin/env perl
+use v5.40;
+use experimental qw(class try);
+use lib          qw(lib);
+
+class Sketch::Eval {
+    field $name :reader = '/eval_do';
+    field $code :param;
+
+    method Sketch::Eval::INC ($path) {
+        return unless $path eq $name;
+        open my $fh, '<', $code;
+        return $fh;
+    }
+}
+
+class Sketch {
+    use Sub::Quote qw(quote_sub);
+    use B          qw(svref_2object);
+
+    field $lexicals :reader :param = {};
+    field $context :reader :param  = 'list';
+
+    field $package :reader :param = 'Sketch::Scratchpad';
+    field $prelude :reader :param = <<~"";
+    use $^V;
+    use experimental qw(class try);
+    use Raylib::App;
+
+
+    sub Sketch::Util::capture_list() {
+        my $pad_capture = \&Sketch::Cage::pad_capture;
+        my @names = grep defined && length > 1, map $_->PV, grep $_->can('PV'),
+          svref_2object($pad_capture)->OUTSIDE->PADLIST->ARRAYelt(0)->ARRAY;
+
+        # Use a simple hashref syntax that's syntactically correct
+        my $vars = '+{ ' . join( ', ', map { "'$_' => \\$_" } @names ) . ' };';
+
+        unless ( $Sketch::current_code =~ s/\Q# VARS HERE\E/$vars/ ) {
+            die "Couldn't inline captured variables";
+        }
+    }
+    my $eval_do = method($code) {
+        my $eval = Sketch::Eval->new( code => $code );
+        local @INC = ( $eval, @INC );
+        do $eval->name or die "Couldn't do $$code $@";
+    };
+
+    my $grab_captures = method() {
+        my $cap = Sketch::Cage::grab_captures();
+        foreach my $key ( keys %$cap ) {
+            my ( $sigil, $name ) = $key =~ /^(.)(.+)$/;
+            my $var_scope_name = "${sigil}Sketch::VarScope::${name}";
+            if ( $cap->{$key} eq eval "\\${var_scope_name}" ) {
+                delete $cap->{$key};
+            }
+        }
+        $cap;
+    };
+
+    my $run = method($code) {
+        my @ret;
+
+        if    ( $context eq 'list' )   { @ret = $code->() }
+        elsif ( $context eq 'scalar' ) { $ret[0] = $code->() }
+        else                           { $code->() }
+
+        $lexicals = { %$lexicals, %{ $self->$grab_captures() } };
+        @ret;
+    };
+
+    method eval($sketch) {
+        local *Sketch::Cage::current_line;
+        local *Sketch::Cage::pad_capture;
+        local *Sketch::Cage::grab_captures;
+
+        my $setup_code = join '', $prelude,
+          Sub::Quote::capture_unroll( '$_[1]', $lexicals, 2 );
+
+        local $Sketch::current_code = <<~"END";
+            ${setup_code}
+            sub Sketch::Cage::current_line {}
+            package ${package};
+            #line 1 "(eval)"
+            ${sketch}
+            sub Sketch::Cage::pad_capture { }
+            BEGIN { Sketch::Util::capture_list() }
+            sub Sketch::Cage::grab_captures {
+                no warnings 'closure'; no strict 'vars';
+                package # hide from PAUSE
+                    Sketch::VarScope;
+
+                # VARS HERE
+            }
+        END
+        $self->$eval_do( \$Sketch::current_code );
+        $self->$run( \&Sketch::Cage::current_line );
+    }
+}
+
+class Watcher {
+    use IO::Async::Loop;
+    use IO::Async::File;
+    use IO::Async::Routine;
+
+    field $filename :param;
+
+    field $sketch = Sketch->new();
+    field $loop   = IO::Async::Loop->new();
+    field $routine;
+
+    my $eval_content = method() {
+        try {
+            use autodie;
+
+            open my $fh, '<', $filename;
+            my $content = do { local $/; <$fh> };
+            close $fh;
+            $sketch->eval($content);
+        }
+        catch ($e) {
+            warn $e;
+        }
+    };
+
+    my $start_routine;
+    $start_routine = method() {
+        $routine = IO::Async::Routine->new(
+            model => 'fork',
+            code  => sub {
+                $self->$eval_content();
+            },
+            on_finish => sub {
+                warn "routine finished restarting";
+                $self->$start_routine();
+            },
+            on_die => sub {
+                warn "routine died";
+                $self->$start_routine();
+            }
+        );
+        $loop->add($routine);
+    };
+
+    my $is_running = sub($self) {
+        defined $self->id;
+    };
+
+    ADJUST {
+        $self->$start_routine();
+
+        my $watcher = IO::Async::File->new(
+            filename         => $filename,
+            on_mtime_changed => sub (@) {
+                warn "file (mtime) changed";
+                if ( $routine->$is_running ) {
+                    $routine->kill('HUP');
+                }
+                else {
+                    $self->$start_routine();
+                }
+            },
+
+            #on_ino_changed => sub (@) {
+            #    warn "file (ino) changed";
+            #    $routine->kill('HUP');
+            #},
+        );
+        $loop->add($watcher);
+    }
+
+    method run {
+        die "File $filename does not exist" unless -e $filename;
+        $loop->run;
+    }
+}
+
+Watcher->new( filename => shift @ARGV )->run unless caller;
+
