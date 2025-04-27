@@ -1,5 +1,5 @@
 use 5.38.0;
-use experimental 'try';
+use experimental qw(try builtin);
 
 package Raylib::FFI;
 
@@ -828,15 +828,15 @@ my %functions = (
     ],
 
     # Texture Loading Functions
-    LoadTexture          => [ ['string']         => 'Texture' ],
-    LoadTextureFromImage => [ ['Image']          => 'Texture2D' ],
-    LoadTextureCubemap   => [ [ 'Image', 'int' ] => 'TextureCubemap' ],
-    LoadRenderTexture    => [ [ 'int', 'int' ] => 'RenderTexture2D' ],
-    IsTextureValid       => [ ['Texture']      => 'bool' ],
-    UnloadTexture        => [ ['Texture2D']    => 'void' ],
-    IsRenderTextureValid => [ ['RenderTexture2D']                   => 'bool' ],
-    UnloadRenderTexture  => [ ['RenderTexture2D']                   => 'void' ],
-    UpdateTexture        => [ [ 'Texture2D', 'Image' ]              => 'void' ],
+    LoadTexture          => [ ['string']               => 'Texture' ],
+    LoadTextureFromImage => [ ['Image']                => 'Texture2D' ],
+    LoadTextureCubemap   => [ [ 'Image', 'int' ]       => 'TextureCubemap' ],
+    LoadRenderTexture    => [ [ 'int', 'int' ]         => 'RenderTexture2D' ],
+    IsTextureValid       => [ ['Texture']              => 'bool' ],
+    UnloadTexture        => [ ['Texture2D']            => 'void' ],
+    IsRenderTextureValid => [ ['RenderTexture2D']      => 'bool' ],
+    UnloadRenderTexture  => [ ['RenderTexture2D']      => 'void' ],
+    UpdateTexture        => [ [ 'Texture2D', 'Image' ] => 'void' ],
     UpdateTextureRec     => [ [ 'Texture2D', 'Rectangle', 'Image' ] => 'void' ],
 
     # Texture Configuration Functions
@@ -1103,7 +1103,7 @@ for my $func ( keys %functions ) {
         $ffi->attach( $func => $functions{$func}->@* );
     }
     catch ($e) {
-        warn $e;
+        warn $e unless $e =~ /^unable to find/;
     }
 }
 
@@ -1393,7 +1393,7 @@ Set window dimensions.
 
 Set window opacity [0.0f..1.0f]
 
-=head2 SetWindowFocused() 
+=head2 SetWindowFocused()
 
 Set window focused
 

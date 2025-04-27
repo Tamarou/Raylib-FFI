@@ -1,8 +1,9 @@
 use 5.38.0;
-use builtin 'export_lexically';
-use Raylib::FFI ();
+use experimental qw(builtin);
+use Raylib::FFI  ();
 
 package Raylib::Color {
+    use builtin 'export_lexically';
     use Convert::Color ();
 
     sub rgba ( $r, $g, $b, $a = 255 ) {
