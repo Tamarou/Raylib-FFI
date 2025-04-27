@@ -40,6 +40,7 @@ class Sketch {
             die "Couldn't inline captured variables";
         }
     }
+
     my $eval_do = method($code) {
         my $eval = Sketch::Eval->new( code => $code );
         local @INC = ( $eval, @INC );
@@ -101,65 +102,17 @@ class Sketch {
 class Watcher {
     use IO::Async::Loop;
     use IO::Async::File;
-    use IO::Async::Routine;
+    use POSIX qw(setsid);
 
     field $filename :param;
 
-    field $sketch = Sketch->new();
-    field $loop   = IO::Async::Loop->new();
+    field $loop = IO::Async::Loop->new();
     field $routine;
 
-    my $eval_content = method() {
-        try {
-            use autodie;
-
-            open my $fh, '<', $filename;
-            my $content = do { local $/; <$fh> };
-            close $fh;
-            $sketch->eval($content);
-        }
-        catch ($e) {
-            warn $e;
-        }
-    };
-
-    my $start_routine;
-    $start_routine = method() {
-        $routine = IO::Async::Routine->new(
-            model => 'fork',
-            code  => sub {
-                $self->$eval_content();
-            },
-            on_finish => sub {
-                warn "routine finished restarting";
-                $self->$start_routine();
-            },
-            on_die => sub {
-                warn "routine died";
-                $self->$start_routine();
-            }
-        );
-        $loop->add($routine);
-    };
-
-    my $is_running = sub($self) {
-        defined $self->id;
-    };
-
     ADJUST {
-        $self->$start_routine();
-
         my $watcher = IO::Async::File->new(
             filename         => $filename,
-            on_mtime_changed => sub (@) {
-                warn "file (mtime) changed";
-                if ( $routine->$is_running ) {
-                    $routine->kill('HUP');
-                }
-                else {
-                    $self->$start_routine();
-                }
-            },
+            on_mtime_changed => sub (@) { kill 'HUP', getppid },
 
             #on_ino_changed => sub (@) {
             #    warn "file (ino) changed";
@@ -170,10 +123,51 @@ class Watcher {
     }
 
     method run {
-        die "File $filename does not exist" unless -e $filename;
+        setsid();
         $loop->run;
     }
 }
 
-Watcher->new( filename => shift @ARGV )->run unless caller;
+class SketchRunner {
+    field $filename :param;
+    field $sketch = Sketch->new();
+
+    method run() {
+        while (1) {
+            warn "Compiling sketch: $filename";
+            try {
+                use autodie;
+
+                open my $fh, '<', $filename;
+                my $content = do { local $/; <$fh> };
+                close $fh;
+                $sketch->eval($content);
+            }
+            catch ($e) {
+                warn $e;
+                sleep 1;
+            }
+        }
+    }
+}
+
+my ($filename) = @ARGV;
+die "File $filename does not exist" unless -e $filename;
+
+my $child_pid = fork // die "Couldn't fork: $!";
+if ($child_pid) {
+
+    # Set up cleanup handler for child process
+    $SIG{INT} = $SIG{TERM} = sub {
+        warn "Terminating watcher process...";
+        kill 'TERM', $child_pid;
+        waitpid( $child_pid, 0 );
+        exit 0;
+    };
+
+    SketchRunner->new( filename => $filename )->run;
+}
+else {
+    Watcher->new( filename => $filename )->run;
+}
 
