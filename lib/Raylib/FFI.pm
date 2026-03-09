@@ -2734,15 +2734,15 @@ Draw cube (Vector version)
 
 Draw cube wires
 
-=head DrawSphere( $centerPos, $radius, $color )
+=head2 DrawSphere( $centerPos, $radius, $color )
 
 Draw sphere
 
-=head DrawSphereEx( $centerPos, $radius, $rings, $segments, $color )
+=head2 DrawSphereEx( $centerPos, $radius, $rings, $segments, $color )
 
 Draw sphere with extended parameters
 
-=head DrawSphereWires( $centerPos, $radius, $rings, $segments, $color )
+=head2 DrawSphereWires( $centerPos, $radius, $rings, $segments, $color )
 
 Draw sphere wires
 
