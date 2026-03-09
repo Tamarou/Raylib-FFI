@@ -1100,6 +1100,14 @@ my %functions = (
     SetAudioStreamPitch    => [ [ 'AudioStream', 'float' ]          => 'void' ],
     SetAudioStreamPan      => [ [ 'AudioStream', 'float' ]          => 'void' ],
     SetAudioStreamBufferSizeDefault => [ ['int'] => 'void' ],
+
+    # raymath: Utils math
+    Clamp       => [ ['float', 'float', 'float']                    => 'float' ],
+    Lerp        => [ ['float', 'float', 'float']                    => 'float' ],
+    Normalize   => [ ['float', 'float', 'float']                    => 'float' ],
+    Remap       => [ ['float', 'float', 'float', 'float', 'float']  => 'float' ],
+    Wrap        => [ ['float', 'float', 'float']                    => 'float' ],
+    FloatEquals => [ ['float', 'float']                             => 'int' ],
 );
 
 for my $func ( keys %functions ) {
@@ -3204,6 +3212,32 @@ Set pan for audio stream (0.5 is center)
 =head2 SetAudioStreamBufferSizeDefault( $size )
 
 Default size for new audio streams
+
+=head1 MATH FUNCTIONS
+
+=head2 Clamp( $value, $min, $max ) : float
+
+Clamp float value
+
+=head2 Lerp( $start, $end, $amount ) : float
+
+Calculate linear interpolation between two floats
+
+=head2 Normalize( $value, $start, $end ) : float
+
+Normalize input value within input range
+
+=head2 Remap( $value, $inputStart, $inputEnd, $outputStart, $outputEnd ) : float
+
+Remap input value within input range to output range
+
+=head2 Wrap( $value, $min, $max ) : float
+
+Wrap input value from min to max
+
+FloatEquals( $x, $y ) : int
+
+Check whether two given floats are almost equal
 
 =head1 KNOWN ISSUES
 
