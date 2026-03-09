@@ -1108,6 +1108,38 @@ my %functions = (
     Remap       => [ ['float', 'float', 'float', 'float', 'float']  => 'float' ],
     Wrap        => [ ['float', 'float', 'float']                    => 'float' ],
     FloatEquals => [ ['float', 'float']                             => 'int' ],
+
+    # raymath: Vector2D math
+    Vector2Zero          => [ []                         => 'Vector2D' ],
+    Vector2One           => [ []                         => 'Vector2D' ],
+    Vector2Add           => [ [ 'Vector2D', 'Vector2D' ] => 'Vector2D' ],
+    Vector2AddValue      => [ [ 'Vector2D', 'float' ]    => 'Vector2D' ],
+    Vector2Subtract      => [ [ 'Vector2D', 'Vector2D' ] => 'Vector2D' ],
+    Vector2SubtractValue => [ [ 'Vector2D', 'float' ]    => 'Vector2D' ],
+    Vector2Length        => [ ['Vector2D']               => 'float' ],
+    Vector2LengthSqr     => [ ['Vector2D']               => 'float' ],
+    Vector2DotProduct    => [ [ 'Vector2D', 'Vector2D' ] => 'float' ],
+    Vector2Distance      => [ [ 'Vector2D', 'Vector2D' ] => 'float' ],
+    Vector2DistanceSqr   => [ [ 'Vector2D', 'Vector2D' ] => 'float' ],
+    Vector2Angle         => [ [ 'Vector2D', 'Vector2D' ] => 'float' ],
+    Vector2LineAngle     => [ [ 'Vector2D', 'Vector2D' ] => 'float' ],
+    Vector2Scale         => [ [ 'Vector2D', 'float' ]    => 'Vector2D' ],
+    Vector2Multiply      => [ [ 'Vector2D', 'Vector2D' ] => 'Vector2D' ],
+    Vector2Negate        => [ ['Vector2D']               => 'Vector2D' ],
+    Vector2Divide        => [ [ 'Vector2D', 'Vector2D' ] => 'Vector2D' ],
+    Vector2Normalize     => [ ['Vector2D']               => 'Vector2D' ],
+    Vector2Transform     => [ [ 'Vector2D', 'Matrix' ]   => 'Vector2D' ],
+    Vector2Lerp    => [ [ 'Vector2D', 'Vector2D', 'float' ] => 'Vector2D' ],
+    Vector2Reflect => [ [ 'Vector2D', 'Vector2D' ]          => 'Vector2D' ],
+    Vector2Min     => [ [ 'Vector2D', 'Vector2D' ]          => 'Vector2D' ],
+    Vector2Max     => [ [ 'Vector2D', 'Vector2D' ]          => 'Vector2D' ],
+    Vector2Rotate  => [ [ 'Vector2D', 'float' ]             => 'Vector2D' ],
+    Vector2MoveTowards => [ [ 'Vector2D', 'Vector2D', 'float' ] => 'Vector2D' ],
+    Vector2Invert      => [ ['Vector2D']                     => 'Vector2D' ],
+    Vector2Clamp => [ [ 'Vector2D', 'Vector2D', 'Vector2D' ] => 'Vector2D' ],
+    Vector2ClampValue => [ [ 'Vector2D', 'float', 'float' ] => 'Vector2D' ],
+    Vector2Equals     => [ [ 'Vector2D', 'Vector2D' ]       => 'int' ],
+    Vector2Refract => [ [ 'Vector2D', 'Vector2D', 'float' ] => 'Vector2D' ],
 );
 
 for my $func ( keys %functions ) {
@@ -3235,9 +3267,136 @@ Remap input value within input range to output range
 
 Wrap input value from min to max
 
-FloatEquals( $x, $y ) : int
+=head2 FloatEquals( $x, $y ) : int
 
 Check whether two given floats are almost equal
+
+=head2 Vector2Zero() : Raylib::FFI::Vector2D
+
+Vector with components value 0.0f
+
+=head2 Vector2One() : Raylib::FFI::Vector2D
+
+Vector with components value 1.0f
+
+=head2 Vector2Add( $v1, $v2 ) : Raylib::FFI::Vector2D
+
+Add two vectors (v1 + v2)
+
+=head2 Vector2AddValue( $vector, $value ) : Raylib::FFI::Vector2D
+
+Add vector and float value
+
+=head2 Vector2Subtract( $v1, $v2 ) : Raylib::FFI::Vector2D
+
+Subtract two vectors (v1 - v2)
+
+=head2 Vector2SubtractValue( $vector, $value ) : Raylib::FFI::Vector2D
+
+Subtract vector by float value
+
+=head2 Vector2Length( $vector ) : float
+
+Calculate vector length
+
+=head2 Vector2LengthSqr( $vector ) : float
+
+Calculate vector square length
+
+=head2 Vector2DotProduct( $v1, $v2 ) : float
+
+Calculate two vectors dot product
+
+=head2 Vector2Distance( $v1, $v2 ) : float
+
+Calculate distance between two vectors
+
+=head2 Vector2DistanceSqr( $v1, $v2 ) : float
+
+Calculate square distance between two vectors
+
+=head2 Vector2Angle( $v1, $v2 ) : float
+
+Calculate angle between two vectors, from origin point (0, 0)
+
+=head2 Vector2LineAngle( $v1, $v2 ) : float
+
+Calculate angle defined by a two vectors line
+
+=head2 Vector2Scale( $vector, $scale ) : Raylib::FFI::Vector2D
+
+Scale vector (multiply by value)
+
+=head2 Vector2Multiply( $v1, $v2 ) : Raylib::FFI::Vector2D
+
+Multiply vector by vector
+
+=head2 Vector2Negate( $vector ) : Raylib::FFI::Vector2D
+
+Negate vector
+
+=head2 Vector2Divide( $v1, $v2 ) : Raylib::FFI::Vector2D
+
+Divide vector by vector
+
+=head2 Vector2Normalize( $vector ) : Raylib::FFI::Vector2D
+
+Normalize provided vector
+
+=head2 Vector2Transform( $vector, $matrix ) : Raylib::FFI::Vector2D
+
+Transforms a Vector2D by a given Matrix
+
+=head2 Vector2Lerp( $v1, $v2, $amount ) : Raylib::FFI::Vector2D
+
+Calculate linear interpolation between two vectors
+
+=head2 Vector2Reflect( $vector, $vnormal ) : Raylib::FFI::Vector2D
+
+Calculate reflected vector to normal
+
+=head2 Vector2Min( $v1, $v2 ) : Raylib::FFI::Vector2D
+
+Get min value for each pair of components
+
+=head2 Vector2Max( $v1, $v2 ) : Raylib::FFI::Vector2D
+
+Get max value for each pair of components
+
+=head2 Vector2Rotate( $vector, $angle ) : Raylib::FFI::Vector2D
+
+Rotate vector by angle
+
+=head2 Vector2MoveTowards( $v1, $v2, $maxDistance ) : Raylib::FFI::Vector2D
+
+Move Vector towards target
+
+=head2 Vector2Invert( $vector ) : Raylib::FFI::Vector2D
+
+Invert the given vector
+
+=head2 Vector2Clamp( $vector, $vmin, $vmax ) : Raylib::FFI::Vector2D
+
+Clamp the components of the vector between min and max values specified by the given vectors
+
+=head2 Vector2ClampValue( $vector, $min, $max ) : Raylib::FFI::Vector2D
+
+Clamp the magnitude of the vector between two min and max values
+
+=head2 Vector2Equals( $p, $q ) : int
+
+Check whether two given vectors are almost equal
+
+=head2 Vector2Refract( $v, $n, $r )
+
+Compute the direction of a refracted ray
+
+$v: normalized direction of the incoming ray
+
+$n: normalized normal vector of the interface of two optical media
+
+$r: ratio of the refractive index of the medium from where the ray comes
+to the refractive index of the medium on the other side of the surface
 
 =head1 KNOWN ISSUES
 
