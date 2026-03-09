@@ -471,6 +471,15 @@ package Raylib::FFI::Float3 {
 }
 $ffi->type('record(Raylib::FFI::Float3)' => 'float3');
 
+package Raylib::FFI::Float16 {
+    use FFI::Platypus::Record qw( record_layout_1 );
+    record_layout_1(
+        $ffi,
+        'float[16]' => 'v'
+    );
+}
+$ffi->type('record(Raylib::FFI::Float3)' => 'float16');
+
 my %functions = (
 
     # Window-related functions
@@ -1192,6 +1201,29 @@ my %functions = (
     Vector3ClampValue => [ [ 'Vector3D', 'float', 'float' ] => 'Vector3D' ],
     Vector3Equals     => [ [ 'Vector3D', 'Vector3D' ]       => 'int' ],
     Vector3Refract => [ [ 'Vector3D', 'Vector3D', 'float' ] => 'Vector3D' ],
+
+    # raymath: Matrix math
+    MatrixDeterminant => [ ['Matrix']                    => 'float' ],
+    MatrixTrace       => [ ['Matrix']                    => 'float' ],
+    MatrixTranspose   => [ ['Matrix']                    => 'Matrix' ],
+    MatrixInvert      => [ ['Matrix']                    => 'Matrix' ],
+    MatrixIdentity    => [ []                            => 'Matrix' ],
+    MatrixAdd         => [ [ 'Matrix', 'Matrix' ]        => 'Matrix' ],
+    MatrixSubtract    => [ [ 'Matrix', 'Matrix' ]        => 'Matrix' ],
+    MatrixMultiply    => [ [ 'Matrix', 'Matrix' ]        => 'Matrix' ],
+    MatrixTranslate   => [ [ 'float', 'float', 'float' ] => 'Matrix' ],
+    MatrixRotate      => [ [ 'Matrix', 'float' ]         => 'Matrix' ],
+    MatrixRotateX     => [ ['float']                     => 'Matrix' ],
+    MatrixRotateY     => [ ['float']                     => 'Matrix' ],
+    MatrixRotateZ     => [ ['float']                     => 'Matrix' ],
+    MatrixRotateXYZ   => [ ['Vector3D']                  => 'Matrix' ],
+    MatrixRotateZYX   => [ ['Vector3D']                  => 'Matrix' ],
+    MatrixFrustum     => [ [ ('double') x 6 ]            => 'Matrix' ],
+    MatrixPerspective => [ [ ('double') x 4 ]            => 'Matrix' ],
+    MatrixOrtho       => [ [ ('double') x 6 ]            => 'Matrix' ],
+    MatrixLookAt      => [ [ ('Vector3D') x 3 ]          => 'Matrix' ],
+    MatrixToFloatV    => [ ['Matrix']                    => 'float16' ],
+
 );
 
 for my $func ( keys %functions ) {
@@ -3612,6 +3644,90 @@ $n: normalized normal vector of the interface of two optical media
 
 $r: ratio of the refractive index of the medium from where the ray comes
 to the refractive index of the medium on the other side of the surface
+
+=head2 MatrixDeterminant( $matrix ) : float
+
+Compute matrix determinant
+
+=head2 MatrixTrace( $matrix ) : float
+
+Get the trace of the matrix (sum of the values along the diagonal)
+
+=head2 MatrixTranspose( $matrix ) : Raylib::FFI::Matrix
+
+Transposes provided matrix
+
+=head2 MatrixInvert( $matrix ) : Raylib::FFI::Matrix
+
+Inverts provided matrix
+
+=head2 MatrixIdentity() : Raylib::FFI::Matrix
+
+Get identity matrix
+
+=head2 MatrixAdd( $left, $right ) : Raylib::FFI::Matrix
+
+Add two matrices
+
+=head2 MatrixSubtract( $left, $right ) : Raylib::FFI::Matrix
+
+Subtract two matrices (left - right)
+
+=head2 MatrixMultiply( $left, $right ) : Raylib::FFI::Matrix
+
+Get two matrix multiplication.
+
+NOTE: When multiplying matrices... the order matters!
+
+=head2 MatrixTranslate( $x, $y, $z ) : Raylib::FFI::Matrix
+
+Get translation matrix
+
+=head2 MatrixRotate( $axis, $radians ) : Raylib::FFI::Matrix
+
+Create rotation matrix from axis and angle
+
+=head2 MatrixRotateX( $radians ) : Raylib::FFI::Matrix
+
+Get x-rotation matrix
+
+=head2 MatrixRotateY( $radians ) : Raylib::FFI::Matrix
+
+Get y-rotation matrix
+
+=head2 MatrixRotateZ( $radians ) : Raylib::FFI::Matrix
+
+Get z-rotation matrix
+
+=head2 MatrixRotateXYZ( $vec3D ) : Raylib::FFI::Matrix
+
+Get xyz-rotation matrix
+
+=head2 MatrixRotateZYX( $vec3D ) : Raylib::FFI::Matrix
+
+Get zyx-rotation matrix
+
+=head2 MatrixFrustum( $left, $right, $bottom, $top, $nearPlane, $farPlane ) : Raylib::FFI::Matrix
+
+Get perspective projection matrix
+
+=head2 MatrixPerspective( $foxY, $aspect, $nearPlane, $farPlane ) : Raylib::FFI::Matrix
+
+Get perspective projection matrix
+
+NOTE: FovY angle must be provided in radians
+
+=head2 MatrixOrtho( $left, $right, $bottom, $top, $nearPlane, $farPlane ) : Raylib::FFI::Matrix
+
+Get orthographic projection matrix
+
+=head2 MatrixLookAt( $eye, $target, $up ) : Raylib::FFI::Matrix
+
+Get camera look-at matrix (view matrix)
+
+=head2 MatrixToFloatV( $matrix ) : Raylib::FFI::Float16
+
+Get float array of matrix data
 
 =head1 KNOWN ISSUES
 
