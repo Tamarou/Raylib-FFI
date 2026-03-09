@@ -872,6 +872,7 @@ my %functions = (
     ColorContrast       => [ [ 'Color', 'float' ]               => 'Color' ],
     ColorAlpha          => [ [ 'Color', 'float' ]               => 'Color' ],
     ColorAlphaBlend     => [ [ 'Color', 'Color', 'Color' ]      => 'Color' ],
+    ColorLerp           => [ [ 'Color', 'Color', 'float' ]      => 'Color' ],
     GetColor            => [ ['int']                            => 'Color' ],
     GetPixelColor       => [ [ 'Image', 'int', 'int' ]          => 'Color' ],
     SetPixelColor       => [ [ 'Image', 'int', 'int', 'Color' ] => 'void' ],
@@ -2556,6 +2557,10 @@ Get src alpha-blended into dst color with tint
 =head2 ColorAlphaBlend( $dst, $src, $tint ) : Raylib::FFI::Color
 
 Get Color structure from hexadecimal value
+
+=head2 ColorLerp( $color1, $color2, $factor ) : Raylib::FFI::Color
+
+Get color lerp interpolation between two colors, factor [0.0f..1.0f]
 
 =head2 GetColor( $hexValue ) : Raylib::FFI::Color
 
