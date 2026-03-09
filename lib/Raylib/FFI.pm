@@ -1035,7 +1035,7 @@ my %functions = (
     # audio device management
     InitAudioDevice    => [ []        => 'void' ],
     CloseAudioDevice   => [ []        => 'void' ],
-    IsAudioDeviceValid => [ []        => 'bool' ],
+    IsAudioDeviceReady => [ []        => 'bool' ],
     SetMasterVolume    => [ ['float'] => 'void' ],
     GetMasterVolume    => [ []        => 'float' ],
 
@@ -2986,7 +2986,7 @@ Initialize audio device and context
 
 Close the audio device and context
 
-=head2 IsAudioDeviceValid() : bool
+=head2 IsAudioDeviceReady() : bool
 
 Check if audio device has been initialized successfully
 
