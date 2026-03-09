@@ -162,22 +162,22 @@ class Engine {
             key_map => {
 
                 # vim keys
-                KEY_H() => sub { movement_action( -1, 0 ) },
-                KEY_L() => sub { movement_action( 1,  0 ) },
-                KEY_K() => sub { movement_action( 0,  -1 ) },
-                KEY_J() => sub { movement_action( 0,  1 ) },
+                KEY_H => sub { movement_action( -1, 0 ) },
+                KEY_L => sub { movement_action( 1,  0 ) },
+                KEY_K => sub { movement_action( 0,  -1 ) },
+                KEY_J => sub { movement_action( 0,  1 ) },
 
                 # wasd keys
-                KEY_W() => sub { movement_action( 0,  -1 ) },
-                KEY_S() => sub { movement_action( 0,  1 ) },
-                KEY_A() => sub { movement_action( -1, 0 ) },
-                KEY_D() => sub { movement_action( 1,  0 ) },
+                KEY_W => sub { movement_action( 0,  -1 ) },
+                KEY_S => sub { movement_action( 0,  1 ) },
+                KEY_A => sub { movement_action( -1, 0 ) },
+                KEY_D => sub { movement_action( 1,  0 ) },
 
                 # arrow keys
-                KEY_UP()    => sub { movement_action( 0,  -1 ) },
-                KEY_DOWN()  => sub { movement_action( 0,  1 ) },
-                KEY_LEFT()  => sub { movement_action( -1, 0 ) },
-                KEY_RIGHT() => sub { movement_action( 1,  0 ) },
+                KEY_UP    => sub { movement_action( 0,  -1 ) },
+                KEY_DOWN  => sub { movement_action( 0,  1 ) },
+                KEY_LEFT  => sub { movement_action( -1, 0 ) },
+                KEY_RIGHT => sub { movement_action( 1,  0 ) },
             },
         )
     }
