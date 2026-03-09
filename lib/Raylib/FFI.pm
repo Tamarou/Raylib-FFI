@@ -462,6 +462,15 @@ package Raylib::FFI::AutomationEventList {
 $ffi->type(
     'record(Raylib::FFI::AutomationEventList)' => 'AutomationEventList' );
 
+package Raylib::FFI::Float3 {
+    use FFI::Platypus::Record qw( record_layout_1 );
+    record_layout_1(
+        $ffi,
+        'float[3]' => 'v'
+    );
+}
+$ffi->type('record(Raylib::FFI::Float3)' => 'float3');
+
 my %functions = (
 
     # Window-related functions
@@ -1140,6 +1149,49 @@ my %functions = (
     Vector2ClampValue => [ [ 'Vector2D', 'float', 'float' ] => 'Vector2D' ],
     Vector2Equals     => [ [ 'Vector2D', 'Vector2D' ]       => 'int' ],
     Vector2Refract => [ [ 'Vector2D', 'Vector2D', 'float' ] => 'Vector2D' ],
+
+
+    # raymath: Vector3D math
+    Vector3Zero           => [ [] => 'Vector3D' ],
+    Vector3One            => [ [] => 'Vector3D' ],
+    Vector3Add            => [ [ 'Vector3D', 'Vector3D' ] => 'Vector3D' ],
+    Vector3AddValue       => [ [ 'Vector3D', 'float' ]    => 'Vector3D' ],
+    Vector3Subtract       => [ [ 'Vector3D', 'Vector3D' ] => 'Vector3D' ],
+    Vector3SubtractValue  => [ [ 'Vector3D', 'float' ]    => 'Vector3D' ],
+    Vector3Scale          => [ [ 'Vector3D', 'float' ]    => 'Vector3D' ],
+    Vector3Multiply       => [ [ 'Vector3D', 'Vector3D' ] => 'Vector3D' ],
+    Vector3CrossProduct   => [ [ 'Vector3D', 'Vector3D' ] => 'Vector3D' ],
+    Vector3Perpendicular  => [ ['Vector3D']                 => 'Vector3D' ],
+    Vector3Length         => [ ['Vector3D']                 => 'float' ],
+    Vector3LengthSqr      => [ ['Vector3D']                 => 'float' ],
+    Vector3DotProduct     => [ [ 'Vector3D', 'Vector3D' ]   => 'float' ],
+    Vector3Multiply       => [ [ 'Vector3D', 'Vector3D' ]   => 'Vector3D' ],
+    Vector3Distance       => [ [ 'Vector3D', 'Vector3D' ]   => 'float' ],
+    Vector3DistanceSqr    => [ [ 'Vector3D', 'Vector3D' ]   => 'float' ],
+    Vector3Angle          => [ [ 'Vector3D', 'Vector3D' ]   => 'float' ],
+    Vector3Negate         => [ ['Vector3D']                 => 'Vector3D' ],
+    Vector3Divide         => [ [ 'Vector3D', 'Vector3D' ]   => 'Vector3D' ],
+    Vector3Normalize      => [ ['Vector3D']                 => 'Vector3D' ],
+    Vector3Project        => [ [ 'Vector3D', 'Vector3D' ]   => 'Vector3D' ],
+    Vector3Reject         => [ [ 'Vector3D', 'Vector3D' ]   => 'Vector3D' ],
+    Vector3OrthoNormalize => [ [ 'Vector3D*', 'Vector3D*' ] => 'Vector3D' ],
+    Vector3Transform      => [ [ 'Vector3D', 'Matrix' ]     => 'Vector3D' ],
+    Vector3RotateByQuaternion => [ [ 'Vector3D', 'Quaternion' ] => 'Vector3D' ],
+    Vector3RotateByAxisAngle => [ [ 'Vector3D', 'Vector3D', 'float' ] => 'Vector3D' ],
+    Vector3MoveTowards => [ [ 'Vector3D', 'Vector3D', 'float' ] => 'Vector3D' ],
+    Vector3Lerp => [ [ 'Vector3D', 'Vector3D', 'float' ] => 'Vector3D' ],
+    Vector3CubicHermite => [ [ 'Vector3D', 'Vector3D', 'Vector3D', 'Vector3D', 'float' ] => 'Vector3D' ],
+    Vector3Reflect => [ [ 'Vector3D', 'Vector3D' ] => 'Vector3D' ],
+    Vector3Min     => [ [ 'Vector3D', 'Vector3D' ] => 'Vector3D' ],
+    Vector3Max     => [ [ 'Vector3D', 'Vector3D' ] => 'Vector3D' ],
+    Vector3Barycenter => [ [ 'Vector3D', 'Vector3D', 'Vector3D', 'Vector3D' ] => 'Vector3D' ],
+    Vector3Unproject => [ [ 'Vector3D', 'Matrix', 'Matrix' ] => 'Vector3D' ],
+    Vector3ToFloatV  => [ ['Vector3D'] => 'float3' ],
+    Vector3Invert    => [ ['Vector3D'] => 'Vector3D' ],
+    Vector3Clamp => [ [ 'Vector3D', 'Vector3D', 'Vector3D' ] => 'Vector3D' ],
+    Vector3ClampValue => [ [ 'Vector3D', 'float', 'float' ] => 'Vector3D' ],
+    Vector3Equals     => [ [ 'Vector3D', 'Vector3D' ]       => 'int' ],
+    Vector3Refract => [ [ 'Vector3D', 'Vector3D', 'float' ] => 'Vector3D' ],
 );
 
 for my $func ( keys %functions ) {
@@ -3388,6 +3440,169 @@ Clamp the magnitude of the vector between two min and max values
 Check whether two given vectors are almost equal
 
 =head2 Vector2Refract( $v, $n, $r )
+
+Compute the direction of a refracted ray
+
+$v: normalized direction of the incoming ray
+
+$n: normalized normal vector of the interface of two optical media
+
+$r: ratio of the refractive index of the medium from where the ray comes
+to the refractive index of the medium on the other side of the surface
+
+=head2 Vector3Zero() : Raylib::FFI::Vector3D
+
+Vector with components value 0.0f
+
+=head2 Vector3One() : Raylib::FFI::Vector3D
+
+Vector with components value 1.0f
+
+=head2 Vector3Add( $v1, $v2 ) : Raylib::FFI::Vector3D
+
+Add two vectors (v1 + v2)
+
+=head2 Vector3AddValue( $vector, $value ) : Raylib::FFI::Vector3D
+
+Add vector and float value
+
+=head2 Vector3Subtract( $v1, $v2 ) : Raylib::FFI::Vector3D
+
+Subtract two vectors (v1 - v2)
+
+=head2 Vector3SubtractValue( $vector, $value ) : Raylib::FFI::Vector3D
+
+Subtract vector by float value
+
+=head2 Vector3Scale( $vector, $scale ) : Raylib::FFI::Vector3D
+
+Multiply vector by scalar
+
+=head2 Vector3Multiply( $v1, $v2 ) : Raylib::FFI::Vector3D
+
+Multiply vector by vector
+
+=head2 Vector3CrossProduct( $v1, $v2 ) : Raylib::FFI::Vector3D
+
+Calculate two vectors cross product
+
+=head2 Vector3Perpendicular( $vector ) : Raylib::FFI::Vector3D
+
+Calculate one vector perpendicular vector
+
+=head2 Vector3Length( $vector ) : float
+
+Calculate vector length
+
+=head2 Vector3LengthSqr( $vector ) : float
+
+Calculate vector square length
+
+=head2 Vector3DotProduct( $v1, $v2 ) : float
+
+Calculate two vectors dot product
+
+=head2 Vector3Distance( $v1, $v2 ) : float
+
+Calculate distance between two vectors
+
+=head2 Vector3DistanceSqr( $v1, $v2 ) : float
+
+Calculate square distance between two vectors
+
+=head2 Vector3Angle( $v1, $v2 ) : float
+
+Calculate angle between two vectors
+
+=head2 Vector3Negate( $vector ) : Raylib::FFI::Vector3D
+
+Negate provided vector (invert direction)
+
+=head2 Vector3Divide( $v1, $v2 ) : Raylib::FFI::Vector3D
+
+Divide vector by vector
+
+=head2 Vector3Normalize( $vector ) : Raylib::FFI::Vector3D
+
+Normalize provided vector
+
+=head2 Vector3Project( $v1, $v2 ) : Raylib::FFI::Vector3D
+
+Calculate the projection of the vector v1 on to v2
+
+=head2 Vector3Reject( $v1, $v2 ) : Raylib::FFI::Vector3D
+
+Calculate the rejection of the vector v1 on to v2
+
+=head2 Vector3OrthoNormalize( \$v1, \$v2 )
+
+Orthonormalize provided vectors. Makes vectors normalized and orthogonal to each other.
+
+=head2 Vector3Transform( $vector, $matrix ) : Raylib::FFI::Vector3D
+
+Transforms a Vector3D by a given Matrix
+
+=head2 Vector3RotateByQuaternion( $vector, $quaternion ) : Raylib::FFI::Vector3D
+
+Transform a vector by quaternion rotation
+
+=head2 Vector3RotateByAxisAngle( $vector, $vaxis, $angle ) : Raylib::FFI::Vector3D
+
+Rotates a vector around an axis
+
+=head2 Vector3MoveTowards( $vector, $vtarget, $maxDistance ) : Raylib::FFI::Vector3D
+
+Move Vector towards target
+
+=head2 Vector3Lerp( $v1, $v2, $amount ) : Raylib::FFI::Vector3D
+
+Calculate linear interpolation between two vectors
+
+=head2 Vector3CubicHermite( $vec1, $vtan1, $vec2, $vtan2, $amount ) : Raylib::FFI::Vector3D
+
+Calculate cubic hermite interpolation between two vectors and their tangents
+
+=head2 Vector3Reflect( $vector, $vnormal ) : Raylib::FFI::Vector3D
+
+Calculate reflected vector to normal
+
+=head2 Vector3Min( $v1, $v2 ) : Raylib::FFI::Vector3D
+
+Get min value for each pair of components
+
+=head2 Vector3Max( $v1, $v2 ) : Raylib::FFI::Vector3D
+
+Get max value for each pair of components
+
+=head2 Vector3Barycenter( $p, $a, $b, $c ) : Raylib::FFI::Vector3D
+
+Compute barycenter coordinates (u, v, w) for point $p with respect to triangle ($a, $b, $c)
+
+=head2 Vector3Unproject( $vector, $projection, $view )
+
+Projects a Vector3 from screen space into object space
+
+=head2 Vector3ToFloatV( $vector ) : Raylib::FFI::Float3
+
+Get Vector3D as float array
+
+=head2 Vector3Invert( $vector ) : Raylib::FFI::Vector3D
+
+Invert the given vector
+
+=head2 Vector3Clamp( $vector, $vmin, $vmax ) : Raylib::FFI::Vector3D
+
+Clamp the components of the vector between min and max values specified by the given vectors
+
+=head2 Vector3ClampValue( $vector, $min, $max ) : Raylib::FFI::Vector3D
+
+Clamp the magnitude of the vector between two min and max values
+
+=head2 Vector3Equals( $p, $q ) : int
+
+Check whether two given vectors are almost equal
+
+=head2 Vector3Refract( $v, $n, $r ) : Raylib::FFI::Vector3D
 
 Compute the direction of a refracted ray
 
