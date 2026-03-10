@@ -3616,7 +3616,7 @@ Calculate the projection of the vector v1 on to v2
 
 Calculate the rejection of the vector v1 on to v2
 
-=head2 Vector3OrthoNormalize( \$v1, \$v2 )
+=head2 Vector3OrthoNormalize( $v1, $v2 )
 
 Orthonormalize provided vectors. Makes vectors normalized and orthogonal to each other.
 
@@ -3967,7 +3967,7 @@ Transform a quaternion given a transformation matrix
 
 Check whether two given quaternions are almost equal
 
-=head2 MatrixDecompose( $mat, \$vec, \$quat, \$vec )
+=head2 MatrixDecompose( $mat, $vtrans, $quat, $vscale )
 
 Decompose a transformation matrix into its rotational, translational and scaling components
 
