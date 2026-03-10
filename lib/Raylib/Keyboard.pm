@@ -3,6 +3,7 @@ use Feature::Compat::Class;
 
 class Raylib::Keyboard {
     use Raylib::FFI qw( GetKeyPressed );
+    use Scalar::Util qw( looks_like_number );
     use Carp qw( carp );
     our %key_map;
 
@@ -143,7 +144,9 @@ class Raylib::Keyboard {
 
     ADJUST {
         for my ( $key, $sub ) ( $key_map->%* ) {
-            my $const = $self->can( $key ) // $self->can( "KEY_$key" );
+            my $const = looks_like_number( $key )
+                ? sub { $key }
+                : $self->can( $key ) // $self->can( "KEY_$key" );
             if ( ! $const ) {
                 carp "Unrecognised key $key";
                 next;
