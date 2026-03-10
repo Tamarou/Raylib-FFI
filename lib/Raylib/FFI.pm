@@ -1202,6 +1202,30 @@ my %functions = (
     Vector3Equals     => [ [ 'Vector3D', 'Vector3D' ]       => 'int' ],
     Vector3Refract => [ [ 'Vector3D', 'Vector3D', 'float' ] => 'Vector3D' ],
 
+    # raymath: Vector4D math
+    Vector4Zero          => [ []                         => 'Vector4D' ],
+    Vector4One           => [ []                         => 'Vector4D' ],
+    Vector4Add           => [ [ 'Vector4D', 'Vector4D' ] => 'Vector4D' ],
+    Vector4AddValue      => [ [ 'Vector4D', 'float' ]    => 'Vector4D' ],
+    Vector4Subtract      => [ [ 'Vector4D', 'Vector4D' ] => 'Vector4D' ],
+    Vector4SubtractValue => [ [ 'Vector4D', 'float' ]    => 'Vector4D' ],
+    Vector4Length        => [ ['Vector4D']               => 'float' ],
+    Vector4LengthSqr     => [ ['Vector4D']               => 'float' ],
+    Vector4DotProduct    => [ [ 'Vector4D', 'Vector4D' ] => 'float' ],
+    Vector4Distance      => [ [ 'Vector4D', 'Vector4D' ] => 'float' ],
+    Vector4DistanceSqr   => [ [ 'Vector4D', 'Vector4D' ] => 'float' ],
+    Vector4Scale         => [ [ 'Vector4D', 'float' ]    => 'Vector4D' ],
+    Vector4Multiply      => [ [ 'Vector4D', 'Vector4D' ] => 'Vector4D' ],
+    Vector4Negate        => [ ['Vector4D']               => 'Vector4D' ],
+    Vector4Divide        => [ [ 'Vector4D', 'Vector4D' ] => 'Vector4D' ],
+    Vector4Normalize     => [ ['Vector4D']               => 'Vector4D' ],
+    Vector4Min     => [ [ 'Vector4D', 'Vector4D' ]          => 'Vector4D' ],
+    Vector4Max     => [ [ 'Vector4D', 'Vector4D' ]          => 'Vector4D' ],
+    Vector4Lerp    => [ [ 'Vector4D', 'Vector4D', 'float' ] => 'Vector4D' ],
+    Vector4MoveTowards => [ [ 'Vector4D', 'Vector4D', 'float' ] => 'Vector4D' ],
+    Vector4Invert      => [ ['Vector4D']                     => 'Vector4D' ],
+    Vector4Equals     => [ [ 'Vector4D', 'Vector4D' ]       => 'int' ],
+
     # raymath: Matrix math
     MatrixDeterminant => [ ['Matrix']                    => 'float' ],
     MatrixTrace       => [ ['Matrix']                    => 'float' ],
@@ -3670,6 +3694,94 @@ $n: normalized normal vector of the interface of two optical media
 
 $r: ratio of the refractive index of the medium from where the ray comes
 to the refractive index of the medium on the other side of the surface
+
+=head2 Vector4Zero() : Raylib::FFI::Vector4D
+
+Vector with components value 0.0f
+
+=head2 Vector4One() : Raylib::FFI::Vector4D
+
+Vector with components value 1.0f
+
+=head2 Vector4Add( $v1, $v2 ) : Raylib::FFI::Vector4D
+
+Add two vectors (v1 + v2)
+
+=head2 Vector4AddValue( $vector, $value ) : Raylib::FFI::Vector4D
+
+Add vector and float value
+
+=head2 Vector4Subtract( $v1, $v2 ) : Raylib::FFI::Vector4D
+
+Subtract two vectors (v1 - v2)
+
+=head2 Vector4SubtractValue( $vector, $value ) : Raylib::FFI::Vector4D
+
+Subtract vector by float value
+
+=head2 Vector4Length( $vector ) : float
+
+Calculate vector length
+
+=head2 Vector4LengthSqr( $vector ) : float
+
+Calculate vector square length
+
+=head2 Vector4DotProduct( $v1, $v2 ) : float
+
+Calculate two vectors dot product
+
+=head2 Vector4Distance( $v1, $v2 ) : float
+
+Calculate distance between two vectors
+
+=head2 Vector4DistanceSqr( $v1, $v2 ) : float
+
+Calculate square distance between two vectors
+
+=head2 Vector4Scale( $vector, $scale ) : Raylib::FFI::Vector4D
+
+Scale vector (multiply by value)
+
+=head2 Vector4Multiply( $v1, $v2 ) : Raylib::FFI::Vector4D
+
+Multiply vector by vector
+
+=head2 Vector4Negate( $vector ) : Raylib::FFI::Vector4D
+
+Negate vector
+
+=head2 Vector4Divide( $v1, $v2 ) : Raylib::FFI::Vector4D
+
+Divide vector by vector
+
+=head2 Vector4Normalize( $vector ) : Raylib::FFI::Vector4D
+
+Normalize provided vector
+
+=head2 Vector4Min( $v1, $v2 ) : Raylib::FFI::Vector4D
+
+Get min value for each pair of components
+
+=head2 Vector4Max( $v1, $v2 ) : Raylib::FFI::Vector4D
+
+Get max value for each pair of components
+
+=head2 Vector4Lerp( $v1, $v2, $amount ) : Raylib::FFI::Vector4D
+
+Calculate linear interpolation between two vectors
+
+=head2 Vector4MoveTowards( $v1, $v2, $maxDistance ) : Raylib::FFI::Vector4D
+
+Move Vector towards target
+
+=head2 Vector4Invert( $vector ) : Raylib::FFI::Vector4D
+
+Invert the given vector
+
+=head2 Vector4Equals( $p, $q ) : int
+
+Check whether two given vectors are almost equal
 
 =head2 MatrixDeterminant( $matrix ) : float
 
