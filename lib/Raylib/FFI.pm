@@ -1183,7 +1183,7 @@ my %functions = (
     Vector3Normalize      => [ ['Vector3D']                 => 'Vector3D' ],
     Vector3Project        => [ [ 'Vector3D', 'Vector3D' ]   => 'Vector3D' ],
     Vector3Reject         => [ [ 'Vector3D', 'Vector3D' ]   => 'Vector3D' ],
-    Vector3OrthoNormalize => [ [ 'Vector3D*', 'Vector3D*' ] => 'Vector3D' ],
+    Vector3OrthoNormalize => [ [ 'Vector3D*', 'Vector3D*' ] ],
     Vector3Transform      => [ [ 'Vector3D', 'Matrix' ]     => 'Vector3D' ],
     Vector3RotateByQuaternion => [ [ 'Vector3D', 'Quaternion' ] => 'Vector3D' ],
     Vector3RotateByAxisAngle => [ [ 'Vector3D', 'Vector3D', 'float' ] => 'Vector3D' ],
