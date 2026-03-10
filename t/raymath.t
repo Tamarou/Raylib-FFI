@@ -43,4 +43,9 @@ ok( FloatEquals( $vec1->x, 0 ), "Vector3OrthoNormalize vec1 x" );
 ok( FloatEquals( $vec1->y, 0 ), "Vector3OrthoNormalize vec1 y" );
 ok( FloatEquals( $vec1->z, 0 ), "Vector3OrthoNormalize vec1 z" );
 
+my $float3 = Vector3ToFloatV( Vector3Scale( Vector3One, 123.456 ) );
+ok( FloatEquals( $float3->v->[0], 123.456 ), "float3 0" );
+ok( FloatEquals( $float3->v->[1], 123.456 ), "float3 1" );
+ok( FloatEquals( $float3->v->[2], 123.456 ), "float3 2" );
+
 done_testing;
