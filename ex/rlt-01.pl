@@ -41,10 +41,10 @@ class Engine {
             KEY_D => sub { $player_x += 10 },
 
             # arrow keys
-            KEY_UP    => sub { $player_y -= 10 },
-            KEY_DOWN  => sub { $player_y += 10 },
-            KEY_LEFT  => sub { $player_x -= 10 },
-            KEY_RIGHT => sub { $player_x += 10 },
+            UP    => sub { $player_y -= 10 },
+            DOWN  => sub { $player_y += 10 },
+            LEFT  => sub { $player_x -= 10 },
+            RIGHT => sub { $player_x += 10 },
         },
     );
 

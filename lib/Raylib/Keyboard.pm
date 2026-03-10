@@ -143,11 +143,12 @@ class Raylib::Keyboard {
 
     ADJUST {
         for my ( $key, $sub ) ( $key_map->%* ) {
-            if ( !$self->can( $key ) ) {
+            my $const = $self->can( $key ) // $self->can( "KEY_$key" );
+            if ( ! $const ) {
                 carp "Unrecognised key $key";
                 next;
             }
-            $key_const_map->{ $self->$key } = $sub
+            $key_const_map->{ $const->() } = $sub
         }
     }
 }
