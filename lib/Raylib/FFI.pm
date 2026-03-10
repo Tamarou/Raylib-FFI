@@ -1224,6 +1224,32 @@ my %functions = (
     MatrixLookAt      => [ [ ('Vector3D') x 3 ]          => 'Matrix' ],
     MatrixToFloatV    => [ ['Matrix']                    => 'float16' ],
 
+    # raymath: Quaternion math
+    QuaternionAdd => [ [ 'Quaternion', 'Quaternion' ] => 'Quaternion' ],
+    QuaternionAddValue => [ [ 'Quaternion', 'float' ] => 'Quaternion' ],
+    QuaternionSubtract => [ [ 'Quaternion', 'Quaternion' ] => 'Quaternion' ],
+    QuaternionSubtractValue => [ [ 'Quaternion', 'float' ] => 'Quaternion' ],
+    QuaternionIdentity      => [ []             => 'Quaternion' ],
+    QuaternionLength        => [ ['Quaternion'] => 'Quaternion' ],
+    QuaternionNormalize     => [ ['Quaternion'] => 'Quaternion' ],
+    QuaternionInvert        => [ ['Quaternion'] => 'Quaternion' ],
+    QuaternionMultiply => [ [ 'Quaternion', 'Quaternion' ] => 'Quaternion' ],
+    QuaternionScale  => [ [ 'Quaternion', 'float' ]      => 'Quaternion' ],
+    QuaternionDivide => [ [ 'Quaternion', 'Quaternion' ] => 'Quaternion' ],
+    QuaternionLerp => [ [ 'Quaternion', 'Quaternion', 'float' ] => 'Quaternion' ],
+    QuaternionNlerp => [ [ 'Quaternion', 'Quaternion', 'float' ] => 'Quaternion' ],
+    QuaternionSlerp => [ [ 'Quaternion', 'Quaternion', 'float' ] => 'Quaternion' ],
+    QuaternionCubicHermiteSpline => [ [ ('Quaternion') x 4, 'float' ] => 'Quaternion' ],
+    QuaternionFromVector3ToVector3 => [ [ 'Vector3D', 'Vector3D' ] => 'Quaternion' ],
+    QuaternionFromMatrix    => [ ['Matrix']              => 'Quaternion' ],
+    QuaternionToMatrix      => [ ['Quaternion']          => 'Matrix' ],
+    QuaternionFromAxisAngle => [ [ 'Vector3D', 'float' ] => 'Quaternion' ],
+    QuaternionToAxisAngle => [ [ 'Quaternion', 'Vector3D', 'float' ] => 'Quaternion' ],
+    QuaternionFromEuler => [ [ ('float') x 3 ]          => 'Quaternion' ],
+    QuaternionToEuler   => [ ['Quaternion']             => 'Vector3D' ],
+    QuaternionTransform => [ [ 'Quaternion', 'Matrix' ] => 'Quaternion' ],
+    QuaternionEquals    => [ [ 'Quaternion', 'Quaternion' ] => 'int' ],
+    MatrixDecompose => [ [ 'Matrix', 'Vector3D*', 'Quaternion*', 'Vector3D*' ] ],
 );
 
 for my $func ( keys %functions ) {
@@ -3728,6 +3754,110 @@ Get camera look-at matrix (view matrix)
 =head2 MatrixToFloatV( $matrix ) : Raylib::FFI::Float16
 
 Get float array of matrix data
+
+=head2 QuaternionAdd( $q1, $q2 ) : Raylib::FFI::Quaternion
+
+Add two quaternions
+
+=head2 QuaternionAddValue( $quat, $value ) : Raylib::FFI::Quaternion
+
+Add quaternion and float value
+
+=head2 QuaternionSubtract( $q1, $q2 ) : Raylib::FFI::Quaternion
+
+Subtract two quaternions
+
+=head2 QuaternionSubtractValue( $quat, $value ) : Raylib::FFI::Quaternion
+
+Subtract quaternion and float value
+
+=head2 QuaternionIdentity() : Raylib::FFI::Quaternion
+
+Get identity quaternion
+
+=head2 QuaternionLength( $quat ) : Raylib::FFI::Quaternion
+
+Computes the length of a quaternion
+
+=head2 QuaternionNormalize( $quat ) : Raylib::FFI::Quaternion
+
+Normalize provided quaternion
+
+=head2 QuaternionInvert( $quat ) : Raylib::FFI::Quaternion
+
+Normalize provided quaternion
+
+=head2 QuaternionInvert( $quat ) : Raylib::FFI::Quaternion
+
+Invert provided quaternion
+
+=head2 QuaternionMultiply( $q1, $q2 ) : Raylib::FFI::Quaternion
+
+Calculate two quaternion multiplication
+
+head2 QuaternionScale( $quat, $value ) : Raylib::FFI::Quaternion
+
+Scale quaternion by float value
+
+=head2 QuaternionDivide( $q1, $q2 ) : Raylib::FFI::Quaternion
+
+Divide two quaternions
+
+=head2 QuaternionLerp( $q1, $q2, $amount ) : Raylib::FFI::Quaternion
+
+Calculate linear interpolation between two quaternions
+
+=head2 QuaternionNlerp( $q1, $q2, $amount ) : Raylib::FFI::Quaternion
+
+Calculate slerp-optimized interpolation between two quaternions
+
+=head2 QuaternionSlerp( $q1, $q2, $amount ) : Raylib::FFI::Quaternion
+
+Calculates spherical linear interpolation between two quaternions
+
+=head2 QuaternionCubicHermiteSpline( $quat1, $qtan1, $quat2, $qtan2, $t ) : Raylib::FFI::Quaternion
+
+Calculate quaternion cubic spline interpolation using Cubic Hermite Spline algorithm
+
+=head2 QuaternionFromVector3ToVector3( $v1, $v2 ) : Raylib::FFI::Quaternion
+
+Calculate quaternion based on the rotation from one vector to another
+
+=head2 QuaternionFromMatrix( $matrix ) : Raylib::FFI::Quaternion
+
+Get a quaternion for a given rotation matrix
+
+=head2 QuaternionToMatrix( $quat ) : Raylib::FFI::Matrix
+
+Get a matrix for a given quaternion
+
+=head2 QuaternionFromAxisAngle( $vector3d, $radias ) : Raylib::FFI::Quaternion
+
+Get rotation quaternion for an angle and axis
+
+=head2 QuaternionFromEuler( $pitch, $yaw, $roll ) : Raylib::FFI::Quaternion
+
+Get the quaternion equivalent to Euler angles.
+
+NOTE: Rotation order is ZYX
+
+=head2 QuaternionToEuler( $quaternion ) : Raylib::FFI::Vector3D
+
+Get the Euler angles equivalent to quaternion (roll, pitch, yaw)
+
+NOTE: Angles are returned in radians
+
+=head2 QuaternionTransform( $quet, $matrix ) : Raylib::FFI::Quaternion
+
+Transform a quaternion given a transformation matrix
+
+=head2 QuaternionEquals( $p, $q ) : int
+
+Check whether two given quaternions are almost equal
+
+=head2 MatrixDecompose( $mat, \$vec, \$quat, \$vec )
+
+Decompose a transformation matrix into its rotational, translational and scaling components
 
 =head1 KNOWN ISSUES
 
