@@ -462,6 +462,24 @@ package Raylib::FFI::AutomationEventList {
 $ffi->type(
     'record(Raylib::FFI::AutomationEventList)' => 'AutomationEventList' );
 
+package Raylib::FFI::Float3 {
+    use FFI::Platypus::Record qw( record_layout_1 );
+    record_layout_1(
+        $ffi,
+        'float[3]' => 'v'
+    );
+}
+$ffi->type('record(Raylib::FFI::Float3)' => 'float3');
+
+package Raylib::FFI::Float16 {
+    use FFI::Platypus::Record qw( record_layout_1 );
+    record_layout_1(
+        $ffi,
+        'float[16]' => 'v'
+    );
+}
+$ffi->type('record(Raylib::FFI::Float3)' => 'float16');
+
 my %functions = (
 
     # Window-related functions
@@ -1100,6 +1118,162 @@ my %functions = (
     SetAudioStreamPitch    => [ [ 'AudioStream', 'float' ]          => 'void' ],
     SetAudioStreamPan      => [ [ 'AudioStream', 'float' ]          => 'void' ],
     SetAudioStreamBufferSizeDefault => [ ['int'] => 'void' ],
+
+    # raymath: Utils math
+    Clamp       => [ ['float', 'float', 'float']                    => 'float' ],
+    Lerp        => [ ['float', 'float', 'float']                    => 'float' ],
+    Normalize   => [ ['float', 'float', 'float']                    => 'float' ],
+    Remap       => [ ['float', 'float', 'float', 'float', 'float']  => 'float' ],
+    Wrap        => [ ['float', 'float', 'float']                    => 'float' ],
+    FloatEquals => [ ['float', 'float']                             => 'int' ],
+
+    # raymath: Vector2D math
+    Vector2Zero          => [ []                         => 'Vector2D' ],
+    Vector2One           => [ []                         => 'Vector2D' ],
+    Vector2Add           => [ [ 'Vector2D', 'Vector2D' ] => 'Vector2D' ],
+    Vector2AddValue      => [ [ 'Vector2D', 'float' ]    => 'Vector2D' ],
+    Vector2Subtract      => [ [ 'Vector2D', 'Vector2D' ] => 'Vector2D' ],
+    Vector2SubtractValue => [ [ 'Vector2D', 'float' ]    => 'Vector2D' ],
+    Vector2Length        => [ ['Vector2D']               => 'float' ],
+    Vector2LengthSqr     => [ ['Vector2D']               => 'float' ],
+    Vector2DotProduct    => [ [ 'Vector2D', 'Vector2D' ] => 'float' ],
+    Vector2Distance      => [ [ 'Vector2D', 'Vector2D' ] => 'float' ],
+    Vector2DistanceSqr   => [ [ 'Vector2D', 'Vector2D' ] => 'float' ],
+    Vector2Angle         => [ [ 'Vector2D', 'Vector2D' ] => 'float' ],
+    Vector2LineAngle     => [ [ 'Vector2D', 'Vector2D' ] => 'float' ],
+    Vector2Scale         => [ [ 'Vector2D', 'float' ]    => 'Vector2D' ],
+    Vector2Multiply      => [ [ 'Vector2D', 'Vector2D' ] => 'Vector2D' ],
+    Vector2Negate        => [ ['Vector2D']               => 'Vector2D' ],
+    Vector2Divide        => [ [ 'Vector2D', 'Vector2D' ] => 'Vector2D' ],
+    Vector2Normalize     => [ ['Vector2D']               => 'Vector2D' ],
+    Vector2Transform     => [ [ 'Vector2D', 'Matrix' ]   => 'Vector2D' ],
+    Vector2Lerp    => [ [ 'Vector2D', 'Vector2D', 'float' ] => 'Vector2D' ],
+    Vector2Reflect => [ [ 'Vector2D', 'Vector2D' ]          => 'Vector2D' ],
+    Vector2Min     => [ [ 'Vector2D', 'Vector2D' ]          => 'Vector2D' ],
+    Vector2Max     => [ [ 'Vector2D', 'Vector2D' ]          => 'Vector2D' ],
+    Vector2Rotate  => [ [ 'Vector2D', 'float' ]             => 'Vector2D' ],
+    Vector2MoveTowards => [ [ 'Vector2D', 'Vector2D', 'float' ] => 'Vector2D' ],
+    Vector2Invert      => [ ['Vector2D']                     => 'Vector2D' ],
+    Vector2Clamp => [ [ 'Vector2D', 'Vector2D', 'Vector2D' ] => 'Vector2D' ],
+    Vector2ClampValue => [ [ 'Vector2D', 'float', 'float' ] => 'Vector2D' ],
+    Vector2Equals     => [ [ 'Vector2D', 'Vector2D' ]       => 'int' ],
+    Vector2Refract => [ [ 'Vector2D', 'Vector2D', 'float' ] => 'Vector2D' ],
+
+
+    # raymath: Vector3D math
+    Vector3Zero           => [ [] => 'Vector3D' ],
+    Vector3One            => [ [] => 'Vector3D' ],
+    Vector3Add            => [ [ 'Vector3D', 'Vector3D' ] => 'Vector3D' ],
+    Vector3AddValue       => [ [ 'Vector3D', 'float' ]    => 'Vector3D' ],
+    Vector3Subtract       => [ [ 'Vector3D', 'Vector3D' ] => 'Vector3D' ],
+    Vector3SubtractValue  => [ [ 'Vector3D', 'float' ]    => 'Vector3D' ],
+    Vector3Scale          => [ [ 'Vector3D', 'float' ]    => 'Vector3D' ],
+    Vector3Multiply       => [ [ 'Vector3D', 'Vector3D' ] => 'Vector3D' ],
+    Vector3CrossProduct   => [ [ 'Vector3D', 'Vector3D' ] => 'Vector3D' ],
+    Vector3Perpendicular  => [ ['Vector3D']                 => 'Vector3D' ],
+    Vector3Length         => [ ['Vector3D']                 => 'float' ],
+    Vector3LengthSqr      => [ ['Vector3D']                 => 'float' ],
+    Vector3DotProduct     => [ [ 'Vector3D', 'Vector3D' ]   => 'float' ],
+    Vector3Multiply       => [ [ 'Vector3D', 'Vector3D' ]   => 'Vector3D' ],
+    Vector3Distance       => [ [ 'Vector3D', 'Vector3D' ]   => 'float' ],
+    Vector3DistanceSqr    => [ [ 'Vector3D', 'Vector3D' ]   => 'float' ],
+    Vector3Angle          => [ [ 'Vector3D', 'Vector3D' ]   => 'float' ],
+    Vector3Negate         => [ ['Vector3D']                 => 'Vector3D' ],
+    Vector3Divide         => [ [ 'Vector3D', 'Vector3D' ]   => 'Vector3D' ],
+    Vector3Normalize      => [ ['Vector3D']                 => 'Vector3D' ],
+    Vector3Project        => [ [ 'Vector3D', 'Vector3D' ]   => 'Vector3D' ],
+    Vector3Reject         => [ [ 'Vector3D', 'Vector3D' ]   => 'Vector3D' ],
+    Vector3OrthoNormalize => [ [ 'Vector3D*', 'Vector3D*' ] ],
+    Vector3Transform      => [ [ 'Vector3D', 'Matrix' ]     => 'Vector3D' ],
+    Vector3RotateByQuaternion => [ [ 'Vector3D', 'Quaternion' ] => 'Vector3D' ],
+    Vector3RotateByAxisAngle => [ [ 'Vector3D', 'Vector3D', 'float' ] => 'Vector3D' ],
+    Vector3MoveTowards => [ [ 'Vector3D', 'Vector3D', 'float' ] => 'Vector3D' ],
+    Vector3Lerp => [ [ 'Vector3D', 'Vector3D', 'float' ] => 'Vector3D' ],
+    Vector3CubicHermite => [ [ ( 'Vector3D' ) x 4, 'float' ] => 'Vector3D' ],
+    Vector3Reflect => [ [ 'Vector3D', 'Vector3D' ] => 'Vector3D' ],
+    Vector3Min     => [ [ 'Vector3D', 'Vector3D' ] => 'Vector3D' ],
+    Vector3Max     => [ [ 'Vector3D', 'Vector3D' ] => 'Vector3D' ],
+    Vector3Barycenter => [ [ ( 'Vector3D' ) x 4 ]  => 'Vector3D' ],
+    Vector3Unproject => [ [ 'Vector3D', 'Matrix', 'Matrix' ] => 'Vector3D' ],
+    Vector3ToFloatV  => [ ['Vector3D'] => 'float3' ],
+    Vector3Invert    => [ ['Vector3D'] => 'Vector3D' ],
+    Vector3Clamp => [ [ 'Vector3D', 'Vector3D', 'Vector3D' ] => 'Vector3D' ],
+    Vector3ClampValue => [ [ 'Vector3D', 'float', 'float' ] => 'Vector3D' ],
+    Vector3Equals     => [ [ 'Vector3D', 'Vector3D' ]       => 'int' ],
+    Vector3Refract => [ [ 'Vector3D', 'Vector3D', 'float' ] => 'Vector3D' ],
+
+    # raymath: Vector4D math
+    Vector4Zero          => [ []                         => 'Vector4D' ],
+    Vector4One           => [ []                         => 'Vector4D' ],
+    Vector4Add           => [ [ 'Vector4D', 'Vector4D' ] => 'Vector4D' ],
+    Vector4AddValue      => [ [ 'Vector4D', 'float' ]    => 'Vector4D' ],
+    Vector4Subtract      => [ [ 'Vector4D', 'Vector4D' ] => 'Vector4D' ],
+    Vector4SubtractValue => [ [ 'Vector4D', 'float' ]    => 'Vector4D' ],
+    Vector4Length        => [ ['Vector4D']               => 'float' ],
+    Vector4LengthSqr     => [ ['Vector4D']               => 'float' ],
+    Vector4DotProduct    => [ [ 'Vector4D', 'Vector4D' ] => 'float' ],
+    Vector4Distance      => [ [ 'Vector4D', 'Vector4D' ] => 'float' ],
+    Vector4DistanceSqr   => [ [ 'Vector4D', 'Vector4D' ] => 'float' ],
+    Vector4Scale         => [ [ 'Vector4D', 'float' ]    => 'Vector4D' ],
+    Vector4Multiply      => [ [ 'Vector4D', 'Vector4D' ] => 'Vector4D' ],
+    Vector4Negate        => [ ['Vector4D']               => 'Vector4D' ],
+    Vector4Divide        => [ [ 'Vector4D', 'Vector4D' ] => 'Vector4D' ],
+    Vector4Normalize     => [ ['Vector4D']               => 'Vector4D' ],
+    Vector4Min     => [ [ 'Vector4D', 'Vector4D' ]          => 'Vector4D' ],
+    Vector4Max     => [ [ 'Vector4D', 'Vector4D' ]          => 'Vector4D' ],
+    Vector4Lerp    => [ [ 'Vector4D', 'Vector4D', 'float' ] => 'Vector4D' ],
+    Vector4MoveTowards => [ [ 'Vector4D', 'Vector4D', 'float' ] => 'Vector4D' ],
+    Vector4Invert      => [ ['Vector4D']                     => 'Vector4D' ],
+    Vector4Equals     => [ [ 'Vector4D', 'Vector4D' ]       => 'int' ],
+
+    # raymath: Matrix math
+    MatrixDeterminant => [ ['Matrix']                    => 'float' ],
+    MatrixTrace       => [ ['Matrix']                    => 'float' ],
+    MatrixTranspose   => [ ['Matrix']                    => 'Matrix' ],
+    MatrixInvert      => [ ['Matrix']                    => 'Matrix' ],
+    MatrixIdentity    => [ []                            => 'Matrix' ],
+    MatrixAdd         => [ [ 'Matrix', 'Matrix' ]        => 'Matrix' ],
+    MatrixSubtract    => [ [ 'Matrix', 'Matrix' ]        => 'Matrix' ],
+    MatrixMultiply    => [ [ 'Matrix', 'Matrix' ]        => 'Matrix' ],
+    MatrixTranslate   => [ [ 'float', 'float', 'float' ] => 'Matrix' ],
+    MatrixRotate      => [ [ 'Matrix', 'float' ]         => 'Matrix' ],
+    MatrixRotateX     => [ ['float']                     => 'Matrix' ],
+    MatrixRotateY     => [ ['float']                     => 'Matrix' ],
+    MatrixRotateZ     => [ ['float']                     => 'Matrix' ],
+    MatrixRotateXYZ   => [ ['Vector3D']                  => 'Matrix' ],
+    MatrixRotateZYX   => [ ['Vector3D']                  => 'Matrix' ],
+    MatrixFrustum     => [ [ ('double') x 6 ]            => 'Matrix' ],
+    MatrixPerspective => [ [ ('double') x 4 ]            => 'Matrix' ],
+    MatrixOrtho       => [ [ ('double') x 6 ]            => 'Matrix' ],
+    MatrixLookAt      => [ [ ('Vector3D') x 3 ]          => 'Matrix' ],
+    MatrixToFloatV    => [ ['Matrix']                    => 'float16' ],
+
+    # raymath: Quaternion math
+    QuaternionAdd => [ [ 'Quaternion', 'Quaternion' ] => 'Quaternion' ],
+    QuaternionAddValue => [ [ 'Quaternion', 'float' ] => 'Quaternion' ],
+    QuaternionSubtract => [ [ 'Quaternion', 'Quaternion' ] => 'Quaternion' ],
+    QuaternionSubtractValue => [ [ 'Quaternion', 'float' ] => 'Quaternion' ],
+    QuaternionIdentity      => [ []             => 'Quaternion' ],
+    QuaternionLength        => [ ['Quaternion'] => 'Quaternion' ],
+    QuaternionNormalize     => [ ['Quaternion'] => 'Quaternion' ],
+    QuaternionInvert        => [ ['Quaternion'] => 'Quaternion' ],
+    QuaternionMultiply => [ [ 'Quaternion', 'Quaternion' ] => 'Quaternion' ],
+    QuaternionScale  => [ [ 'Quaternion', 'float' ]      => 'Quaternion' ],
+    QuaternionDivide => [ [ 'Quaternion', 'Quaternion' ] => 'Quaternion' ],
+    QuaternionLerp => [ [ 'Quaternion', 'Quaternion', 'float' ] => 'Quaternion' ],
+    QuaternionNlerp => [ [ 'Quaternion', 'Quaternion', 'float' ] => 'Quaternion' ],
+    QuaternionSlerp => [ [ 'Quaternion', 'Quaternion', 'float' ] => 'Quaternion' ],
+    QuaternionCubicHermiteSpline => [ [ ('Quaternion') x 4, 'float' ] => 'Quaternion' ],
+    QuaternionFromVector3ToVector3 => [ [ 'Vector3D', 'Vector3D' ] => 'Quaternion' ],
+    QuaternionFromMatrix    => [ ['Matrix']              => 'Quaternion' ],
+    QuaternionToMatrix      => [ ['Quaternion']          => 'Matrix' ],
+    QuaternionFromAxisAngle => [ [ 'Vector3D', 'float' ] => 'Quaternion' ],
+    QuaternionToAxisAngle => [ [ 'Quaternion', 'Vector3D', 'float' ] => 'Quaternion' ],
+    QuaternionFromEuler => [ [ ('float') x 3 ]          => 'Quaternion' ],
+    QuaternionToEuler   => [ ['Quaternion']             => 'Vector3D' ],
+    QuaternionTransform => [ [ 'Quaternion', 'Matrix' ] => 'Quaternion' ],
+    QuaternionEquals    => [ [ 'Quaternion', 'Quaternion' ] => 'int' ],
+    MatrixDecompose => [ [ 'Matrix', 'Vector3D*', 'Quaternion*', 'Vector3D*' ] ],
 );
 
 for my $func ( keys %functions ) {
@@ -3204,6 +3378,598 @@ Set pan for audio stream (0.5 is center)
 =head2 SetAudioStreamBufferSizeDefault( $size )
 
 Default size for new audio streams
+
+=head1 MATH FUNCTIONS
+
+=head2 Clamp( $value, $min, $max ) : float
+
+Clamp float value
+
+=head2 Lerp( $start, $end, $amount ) : float
+
+Calculate linear interpolation between two floats
+
+=head2 Normalize( $value, $start, $end ) : float
+
+Normalize input value within input range
+
+=head2 Remap( $value, $inputStart, $inputEnd, $outputStart, $outputEnd ) : float
+
+Remap input value within input range to output range
+
+=head2 Wrap( $value, $min, $max ) : float
+
+Wrap input value from min to max
+
+=head2 FloatEquals( $x, $y ) : int
+
+Check whether two given floats are almost equal
+
+=head2 Vector2Zero() : Raylib::FFI::Vector2D
+
+Vector with components value 0.0f
+
+=head2 Vector2One() : Raylib::FFI::Vector2D
+
+Vector with components value 1.0f
+
+=head2 Vector2Add( $v1, $v2 ) : Raylib::FFI::Vector2D
+
+Add two vectors (v1 + v2)
+
+=head2 Vector2AddValue( $vector, $value ) : Raylib::FFI::Vector2D
+
+Add vector and float value
+
+=head2 Vector2Subtract( $v1, $v2 ) : Raylib::FFI::Vector2D
+
+Subtract two vectors (v1 - v2)
+
+=head2 Vector2SubtractValue( $vector, $value ) : Raylib::FFI::Vector2D
+
+Subtract vector by float value
+
+=head2 Vector2Length( $vector ) : float
+
+Calculate vector length
+
+=head2 Vector2LengthSqr( $vector ) : float
+
+Calculate vector square length
+
+=head2 Vector2DotProduct( $v1, $v2 ) : float
+
+Calculate two vectors dot product
+
+=head2 Vector2Distance( $v1, $v2 ) : float
+
+Calculate distance between two vectors
+
+=head2 Vector2DistanceSqr( $v1, $v2 ) : float
+
+Calculate square distance between two vectors
+
+=head2 Vector2Angle( $v1, $v2 ) : float
+
+Calculate angle between two vectors, from origin point (0, 0)
+
+=head2 Vector2LineAngle( $v1, $v2 ) : float
+
+Calculate angle defined by a two vectors line
+
+=head2 Vector2Scale( $vector, $scale ) : Raylib::FFI::Vector2D
+
+Scale vector (multiply by value)
+
+=head2 Vector2Multiply( $v1, $v2 ) : Raylib::FFI::Vector2D
+
+Multiply vector by vector
+
+=head2 Vector2Negate( $vector ) : Raylib::FFI::Vector2D
+
+Negate vector
+
+=head2 Vector2Divide( $v1, $v2 ) : Raylib::FFI::Vector2D
+
+Divide vector by vector
+
+=head2 Vector2Normalize( $vector ) : Raylib::FFI::Vector2D
+
+Normalize provided vector
+
+=head2 Vector2Transform( $vector, $matrix ) : Raylib::FFI::Vector2D
+
+Transforms a Vector2D by a given Matrix
+
+=head2 Vector2Lerp( $v1, $v2, $amount ) : Raylib::FFI::Vector2D
+
+Calculate linear interpolation between two vectors
+
+=head2 Vector2Reflect( $vector, $vnormal ) : Raylib::FFI::Vector2D
+
+Calculate reflected vector to normal
+
+=head2 Vector2Min( $v1, $v2 ) : Raylib::FFI::Vector2D
+
+Get min value for each pair of components
+
+=head2 Vector2Max( $v1, $v2 ) : Raylib::FFI::Vector2D
+
+Get max value for each pair of components
+
+=head2 Vector2Rotate( $vector, $angle ) : Raylib::FFI::Vector2D
+
+Rotate vector by angle
+
+=head2 Vector2MoveTowards( $v1, $v2, $maxDistance ) : Raylib::FFI::Vector2D
+
+Move Vector towards target
+
+=head2 Vector2Invert( $vector ) : Raylib::FFI::Vector2D
+
+Invert the given vector
+
+=head2 Vector2Clamp( $vector, $vmin, $vmax ) : Raylib::FFI::Vector2D
+
+Clamp the components of the vector between min and max values specified by the given vectors
+
+=head2 Vector2ClampValue( $vector, $min, $max ) : Raylib::FFI::Vector2D
+
+Clamp the magnitude of the vector between two min and max values
+
+=head2 Vector2Equals( $p, $q ) : int
+
+Check whether two given vectors are almost equal
+
+=head2 Vector2Refract( $v, $n, $r )
+
+Compute the direction of a refracted ray
+
+$v: normalized direction of the incoming ray
+
+$n: normalized normal vector of the interface of two optical media
+
+$r: ratio of the refractive index of the medium from where the ray comes
+to the refractive index of the medium on the other side of the surface
+
+=head2 Vector3Zero() : Raylib::FFI::Vector3D
+
+Vector with components value 0.0f
+
+=head2 Vector3One() : Raylib::FFI::Vector3D
+
+Vector with components value 1.0f
+
+=head2 Vector3Add( $v1, $v2 ) : Raylib::FFI::Vector3D
+
+Add two vectors (v1 + v2)
+
+=head2 Vector3AddValue( $vector, $value ) : Raylib::FFI::Vector3D
+
+Add vector and float value
+
+=head2 Vector3Subtract( $v1, $v2 ) : Raylib::FFI::Vector3D
+
+Subtract two vectors (v1 - v2)
+
+=head2 Vector3SubtractValue( $vector, $value ) : Raylib::FFI::Vector3D
+
+Subtract vector by float value
+
+=head2 Vector3Scale( $vector, $scale ) : Raylib::FFI::Vector3D
+
+Multiply vector by scalar
+
+=head2 Vector3Multiply( $v1, $v2 ) : Raylib::FFI::Vector3D
+
+Multiply vector by vector
+
+=head2 Vector3CrossProduct( $v1, $v2 ) : Raylib::FFI::Vector3D
+
+Calculate two vectors cross product
+
+=head2 Vector3Perpendicular( $vector ) : Raylib::FFI::Vector3D
+
+Calculate one vector perpendicular vector
+
+=head2 Vector3Length( $vector ) : float
+
+Calculate vector length
+
+=head2 Vector3LengthSqr( $vector ) : float
+
+Calculate vector square length
+
+=head2 Vector3DotProduct( $v1, $v2 ) : float
+
+Calculate two vectors dot product
+
+=head2 Vector3Distance( $v1, $v2 ) : float
+
+Calculate distance between two vectors
+
+=head2 Vector3DistanceSqr( $v1, $v2 ) : float
+
+Calculate square distance between two vectors
+
+=head2 Vector3Angle( $v1, $v2 ) : float
+
+Calculate angle between two vectors
+
+=head2 Vector3Negate( $vector ) : Raylib::FFI::Vector3D
+
+Negate provided vector (invert direction)
+
+=head2 Vector3Divide( $v1, $v2 ) : Raylib::FFI::Vector3D
+
+Divide vector by vector
+
+=head2 Vector3Normalize( $vector ) : Raylib::FFI::Vector3D
+
+Normalize provided vector
+
+=head2 Vector3Project( $v1, $v2 ) : Raylib::FFI::Vector3D
+
+Calculate the projection of the vector v1 on to v2
+
+=head2 Vector3Reject( $v1, $v2 ) : Raylib::FFI::Vector3D
+
+Calculate the rejection of the vector v1 on to v2
+
+=head2 Vector3OrthoNormalize( $v1, $v2 )
+
+Orthonormalize provided vectors. Makes vectors normalized and orthogonal to each other.
+
+=head2 Vector3Transform( $vector, $matrix ) : Raylib::FFI::Vector3D
+
+Transforms a Vector3D by a given Matrix
+
+=head2 Vector3RotateByQuaternion( $vector, $quaternion ) : Raylib::FFI::Vector3D
+
+Transform a vector by quaternion rotation
+
+=head2 Vector3RotateByAxisAngle( $vector, $vaxis, $angle ) : Raylib::FFI::Vector3D
+
+Rotates a vector around an axis
+
+=head2 Vector3MoveTowards( $vector, $vtarget, $maxDistance ) : Raylib::FFI::Vector3D
+
+Move Vector towards target
+
+=head2 Vector3Lerp( $v1, $v2, $amount ) : Raylib::FFI::Vector3D
+
+Calculate linear interpolation between two vectors
+
+=head2 Vector3CubicHermite( $vec1, $vtan1, $vec2, $vtan2, $amount ) : Raylib::FFI::Vector3D
+
+Calculate cubic hermite interpolation between two vectors and their tangents
+
+=head2 Vector3Reflect( $vector, $vnormal ) : Raylib::FFI::Vector3D
+
+Calculate reflected vector to normal
+
+=head2 Vector3Min( $v1, $v2 ) : Raylib::FFI::Vector3D
+
+Get min value for each pair of components
+
+=head2 Vector3Max( $v1, $v2 ) : Raylib::FFI::Vector3D
+
+Get max value for each pair of components
+
+=head2 Vector3Barycenter( $p, $a, $b, $c ) : Raylib::FFI::Vector3D
+
+Compute barycenter coordinates (u, v, w) for point $p with respect to triangle ($a, $b, $c)
+
+=head2 Vector3Unproject( $vector, $projection, $view )
+
+Projects a Vector3 from screen space into object space
+
+=head2 Vector3ToFloatV( $vector ) : Raylib::FFI::Float3
+
+Get Vector3D as float array
+
+=head2 Vector3Invert( $vector ) : Raylib::FFI::Vector3D
+
+Invert the given vector
+
+=head2 Vector3Clamp( $vector, $vmin, $vmax ) : Raylib::FFI::Vector3D
+
+Clamp the components of the vector between min and max values specified by the given vectors
+
+=head2 Vector3ClampValue( $vector, $min, $max ) : Raylib::FFI::Vector3D
+
+Clamp the magnitude of the vector between two min and max values
+
+=head2 Vector3Equals( $p, $q ) : int
+
+Check whether two given vectors are almost equal
+
+=head2 Vector3Refract( $v, $n, $r ) : Raylib::FFI::Vector3D
+
+Compute the direction of a refracted ray
+
+$v: normalized direction of the incoming ray
+
+$n: normalized normal vector of the interface of two optical media
+
+$r: ratio of the refractive index of the medium from where the ray comes
+to the refractive index of the medium on the other side of the surface
+
+=head2 Vector4Zero() : Raylib::FFI::Vector4D
+
+Vector with components value 0.0f
+
+=head2 Vector4One() : Raylib::FFI::Vector4D
+
+Vector with components value 1.0f
+
+=head2 Vector4Add( $v1, $v2 ) : Raylib::FFI::Vector4D
+
+Add two vectors (v1 + v2)
+
+=head2 Vector4AddValue( $vector, $value ) : Raylib::FFI::Vector4D
+
+Add vector and float value
+
+=head2 Vector4Subtract( $v1, $v2 ) : Raylib::FFI::Vector4D
+
+Subtract two vectors (v1 - v2)
+
+=head2 Vector4SubtractValue( $vector, $value ) : Raylib::FFI::Vector4D
+
+Subtract vector by float value
+
+=head2 Vector4Length( $vector ) : float
+
+Calculate vector length
+
+=head2 Vector4LengthSqr( $vector ) : float
+
+Calculate vector square length
+
+=head2 Vector4DotProduct( $v1, $v2 ) : float
+
+Calculate two vectors dot product
+
+=head2 Vector4Distance( $v1, $v2 ) : float
+
+Calculate distance between two vectors
+
+=head2 Vector4DistanceSqr( $v1, $v2 ) : float
+
+Calculate square distance between two vectors
+
+=head2 Vector4Scale( $vector, $scale ) : Raylib::FFI::Vector4D
+
+Scale vector (multiply by value)
+
+=head2 Vector4Multiply( $v1, $v2 ) : Raylib::FFI::Vector4D
+
+Multiply vector by vector
+
+=head2 Vector4Negate( $vector ) : Raylib::FFI::Vector4D
+
+Negate vector
+
+=head2 Vector4Divide( $v1, $v2 ) : Raylib::FFI::Vector4D
+
+Divide vector by vector
+
+=head2 Vector4Normalize( $vector ) : Raylib::FFI::Vector4D
+
+Normalize provided vector
+
+=head2 Vector4Min( $v1, $v2 ) : Raylib::FFI::Vector4D
+
+Get min value for each pair of components
+
+=head2 Vector4Max( $v1, $v2 ) : Raylib::FFI::Vector4D
+
+Get max value for each pair of components
+
+=head2 Vector4Lerp( $v1, $v2, $amount ) : Raylib::FFI::Vector4D
+
+Calculate linear interpolation between two vectors
+
+=head2 Vector4MoveTowards( $v1, $v2, $maxDistance ) : Raylib::FFI::Vector4D
+
+Move Vector towards target
+
+=head2 Vector4Invert( $vector ) : Raylib::FFI::Vector4D
+
+Invert the given vector
+
+=head2 Vector4Equals( $p, $q ) : int
+
+Check whether two given vectors are almost equal
+
+=head2 MatrixDeterminant( $matrix ) : float
+
+Compute matrix determinant
+
+=head2 MatrixTrace( $matrix ) : float
+
+Get the trace of the matrix (sum of the values along the diagonal)
+
+=head2 MatrixTranspose( $matrix ) : Raylib::FFI::Matrix
+
+Transposes provided matrix
+
+=head2 MatrixInvert( $matrix ) : Raylib::FFI::Matrix
+
+Inverts provided matrix
+
+=head2 MatrixIdentity() : Raylib::FFI::Matrix
+
+Get identity matrix
+
+=head2 MatrixAdd( $left, $right ) : Raylib::FFI::Matrix
+
+Add two matrices
+
+=head2 MatrixSubtract( $left, $right ) : Raylib::FFI::Matrix
+
+Subtract two matrices (left - right)
+
+=head2 MatrixMultiply( $left, $right ) : Raylib::FFI::Matrix
+
+Get two matrix multiplication.
+
+NOTE: When multiplying matrices... the order matters!
+
+=head2 MatrixTranslate( $x, $y, $z ) : Raylib::FFI::Matrix
+
+Get translation matrix
+
+=head2 MatrixRotate( $axis, $radians ) : Raylib::FFI::Matrix
+
+Create rotation matrix from axis and angle
+
+=head2 MatrixRotateX( $radians ) : Raylib::FFI::Matrix
+
+Get x-rotation matrix
+
+=head2 MatrixRotateY( $radians ) : Raylib::FFI::Matrix
+
+Get y-rotation matrix
+
+=head2 MatrixRotateZ( $radians ) : Raylib::FFI::Matrix
+
+Get z-rotation matrix
+
+=head2 MatrixRotateXYZ( $vec3D ) : Raylib::FFI::Matrix
+
+Get xyz-rotation matrix
+
+=head2 MatrixRotateZYX( $vec3D ) : Raylib::FFI::Matrix
+
+Get zyx-rotation matrix
+
+=head2 MatrixFrustum( $left, $right, $bottom, $top, $nearPlane, $farPlane ) : Raylib::FFI::Matrix
+
+Get perspective projection matrix
+
+=head2 MatrixPerspective( $foxY, $aspect, $nearPlane, $farPlane ) : Raylib::FFI::Matrix
+
+Get perspective projection matrix
+
+NOTE: FovY angle must be provided in radians
+
+=head2 MatrixOrtho( $left, $right, $bottom, $top, $nearPlane, $farPlane ) : Raylib::FFI::Matrix
+
+Get orthographic projection matrix
+
+=head2 MatrixLookAt( $eye, $target, $up ) : Raylib::FFI::Matrix
+
+Get camera look-at matrix (view matrix)
+
+=head2 MatrixToFloatV( $matrix ) : Raylib::FFI::Float16
+
+Get float array of matrix data
+
+=head2 QuaternionAdd( $q1, $q2 ) : Raylib::FFI::Quaternion
+
+Add two quaternions
+
+=head2 QuaternionAddValue( $quat, $value ) : Raylib::FFI::Quaternion
+
+Add quaternion and float value
+
+=head2 QuaternionSubtract( $q1, $q2 ) : Raylib::FFI::Quaternion
+
+Subtract two quaternions
+
+=head2 QuaternionSubtractValue( $quat, $value ) : Raylib::FFI::Quaternion
+
+Subtract quaternion and float value
+
+=head2 QuaternionIdentity() : Raylib::FFI::Quaternion
+
+Get identity quaternion
+
+=head2 QuaternionLength( $quat ) : Raylib::FFI::Quaternion
+
+Computes the length of a quaternion
+
+=head2 QuaternionNormalize( $quat ) : Raylib::FFI::Quaternion
+
+Normalize provided quaternion
+
+=head2 QuaternionInvert( $quat ) : Raylib::FFI::Quaternion
+
+Normalize provided quaternion
+
+=head2 QuaternionInvert( $quat ) : Raylib::FFI::Quaternion
+
+Invert provided quaternion
+
+=head2 QuaternionMultiply( $q1, $q2 ) : Raylib::FFI::Quaternion
+
+Calculate two quaternion multiplication
+
+head2 QuaternionScale( $quat, $value ) : Raylib::FFI::Quaternion
+
+Scale quaternion by float value
+
+=head2 QuaternionDivide( $q1, $q2 ) : Raylib::FFI::Quaternion
+
+Divide two quaternions
+
+=head2 QuaternionLerp( $q1, $q2, $amount ) : Raylib::FFI::Quaternion
+
+Calculate linear interpolation between two quaternions
+
+=head2 QuaternionNlerp( $q1, $q2, $amount ) : Raylib::FFI::Quaternion
+
+Calculate slerp-optimized interpolation between two quaternions
+
+=head2 QuaternionSlerp( $q1, $q2, $amount ) : Raylib::FFI::Quaternion
+
+Calculates spherical linear interpolation between two quaternions
+
+=head2 QuaternionCubicHermiteSpline( $quat1, $qtan1, $quat2, $qtan2, $t ) : Raylib::FFI::Quaternion
+
+Calculate quaternion cubic spline interpolation using Cubic Hermite Spline algorithm
+
+=head2 QuaternionFromVector3ToVector3( $v1, $v2 ) : Raylib::FFI::Quaternion
+
+Calculate quaternion based on the rotation from one vector to another
+
+=head2 QuaternionFromMatrix( $matrix ) : Raylib::FFI::Quaternion
+
+Get a quaternion for a given rotation matrix
+
+=head2 QuaternionToMatrix( $quat ) : Raylib::FFI::Matrix
+
+Get a matrix for a given quaternion
+
+=head2 QuaternionFromAxisAngle( $vector3d, $radias ) : Raylib::FFI::Quaternion
+
+Get rotation quaternion for an angle and axis
+
+=head2 QuaternionFromEuler( $pitch, $yaw, $roll ) : Raylib::FFI::Quaternion
+
+Get the quaternion equivalent to Euler angles.
+
+NOTE: Rotation order is ZYX
+
+=head2 QuaternionToEuler( $quaternion ) : Raylib::FFI::Vector3D
+
+Get the Euler angles equivalent to quaternion (roll, pitch, yaw)
+
+NOTE: Angles are returned in radians
+
+=head2 QuaternionTransform( $quet, $matrix ) : Raylib::FFI::Quaternion
+
+Transform a quaternion given a transformation matrix
+
+=head2 QuaternionEquals( $p, $q ) : int
+
+Check whether two given quaternions are almost equal
+
+=head2 MatrixDecompose( $mat, $vtrans, $quat, $vscale )
+
+Decompose a transformation matrix into its rotational, translational and scaling components
 
 =head1 KNOWN ISSUES
 
