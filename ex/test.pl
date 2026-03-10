@@ -1,6 +1,6 @@
 use 5.36.3;
 use lib qw(lib);
-use Raylib::FFI;
+use Raylib::FFI ':all';
 use constant Color => 'Raylib::FFI::Color';
 
 InitWindow( 800, 600, "Testing!" );

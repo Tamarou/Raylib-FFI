@@ -2,7 +2,7 @@ use 5.36.3;
 use Feature::Compat::Class;
 
 class Raylib::Text {
-    use Raylib::FFI;
+    use Raylib::FFI qw( DrawText );
 
     field $text : param;
     field $color : param;

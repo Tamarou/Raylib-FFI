@@ -2,7 +2,9 @@ use 5.36.3;
 use Feature::Compat::Class;
 
 class Raylib::Keyboard {
-    use Raylib::FFI;
+    use Raylib::FFI qw( GetKeyPressed );
+    use Scalar::Util qw( looks_like_number );
+    use Carp qw( carp );
     our %key_map;
 
     BEGIN {
@@ -130,15 +132,28 @@ class Raylib::Keyboard {
         *key_pressed  = &Raylib::FFI::GetKeyPressed;
     }
 
-    our @EXPORT_OK( keys %key_map );
-
     field $key_map :param = {};
+    field $key_const_map = {};
 
     method handle_events() {
         while ( my $key = GetKeyPressed() ) {
-            next unless $key_map->{$key};
-            $key_map->{$key}->();
+            next unless $key_const_map->{$key};
+            $key_const_map->{$key}->();
+        }
+    }
+
+    ADJUST {
+        for my ( $key, $sub ) ( $key_map->%* ) {
+            my $const = looks_like_number( $key )
+                ? sub { $key }
+                : $self->can( $key ) // $self->can( "KEY_$key" );
+            if ( ! $const ) {
+                carp "Unrecognised key $key";
+                next;
+            }
+            $key_const_map->{ $const->() } = $sub
         }
     }
 }
 
+1;
