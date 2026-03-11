@@ -699,17 +699,17 @@ my %functions = (
     DrawPolyLinesEx   => [ [qw(Vector2D int float float float Color)] => 'void' ],
 
     # Splines Drawing Functions
-    DrawSplineLinear            => [ [ 'Vector2D*', 'int' ]      => 'void' ],
-    DrawSplineBasis             => [ [ 'Vector2D*', 'int' ]      => 'void' ],
-    DrawSplineCatmullRom        => [ [ 'Vector2D*', 'int' ]      => 'void' ],
-    DrawSplineBezierQuadratic   => [ [ 'Vector2D*', 'int' ]      => 'void' ],
-    DrawSplineBezierCubic       => [ [ 'Vector2D*', 'int' ]      => 'void' ],
-    DrawSplineSegmentLinear     => [ [ 'Vector2D',  'Vector2D' ] => 'void' ],
-    DrawSplineSegmentBasis      => [ [ 'Vector2D',  'Vector2D' ] => 'void' ],
-    DrawSplineSegmentCatmullRom => [ [ 'Vector2D',  'Vector2D' ] => 'void' ],
-    DrawSplineSegmentBezierQuadratic =>
-      [ [ 'Vector2D', 'Vector2D' ] => 'void' ],
-    DrawSplineSegmentBezierCubic => [ [ 'Vector2D', 'Vector2D' ] => 'void' ],
+    DrawSplineLinear            => [ [ 'Vector2D*', 'int', 'float', 'Color' ]      => 'void' ],
+    DrawSplineBasis             => [ [ 'Vector2D*', 'int', 'float', 'Color' ]      => 'void' ],
+    DrawSplineCatmullRom        => [ [ 'Vector2D*', 'int', 'float', 'Color' ]      => 'void' ],
+    DrawSplineBezierQuadratic   => [ [ 'Vector2D*', 'int', 'float', 'Color' ]      => 'void' ],
+    DrawSplineBezierCubic       => [ [ 'Vector2D*', 'int', 'float', 'Color' ]      => 'void' ],
+    DrawSplineSegmentLinear     => [ [ 'Vector2D',  'Vector2D', 'float', 'Color' ] => 'void' ],
+
+    DrawSplineSegmentBasis => [ [qw(Vector2D Vector2D Vector2D Vector2D float Color)] ],
+    DrawSplineSegmentCatmullRom => [ [qw(Vector2D Vector2D Vector2D Vector2D float Color)] ],
+    DrawSplineSegmentBezierQuadratic => [ [qw(Vector2D Vector2D Vector2D float Color)] ],
+    DrawSplineSegmentBezierCubic => [ [qw(Vector2D Vector2D Vector2D Vector2D float Color)] ],
 
     # pline segment point evaluation functions, for a given t [0.0f .. 1.0f]
     GetSplinePointLinear      => [ [ 'Vector2D', 'float' ] => 'Vector2D' ],
@@ -2049,31 +2049,31 @@ Draw a polygon outline of n sides
 
 Draw a polygon outline of n sides with extended parameters
 
-=head2 DrawSplineLinear( $points, $pointCount, $color )
+=head2 DrawSplineLinear( $points, $pointCount, $thick, $color )
 
 Draw spline: Linear, minimum 2 points
 
-=head2 DrawSplineBasis( $points, $pointCount, $color )
+=head2 DrawSplineBasis( $points, $pointCount, $thick, $color )
 
 Draw spline: B-Spline, minimum 4 points
 
-=head2 DrawSplineCatmullRom( $points, $pointCount, $color )
+=head2 DrawSplineCatmullRom( $points, $pointCount, $thick, $color )
 
 Draw spline: Catmull-Rom, minimum 4 points
 
-=head2 DrawSplineBezierQuadratic( $points, $pointCount, $color )
+=head2 DrawSplineBezierQuadratic( $points, $pointCount, $thick, $color )
 
 Draw spline: Quadratic Bezier, minimum 3 points (1 control point): [p1, c2, p3, c4...]
 
-=head2 DrawSplineBezierCubic( $points, $pointCount, $color )
+=head2 DrawSplineBezierCubic( $points, $pointCount, $float, $color )
 
 Draw spline: Cubic Bezier, minimum 4 points (2 control points): [p1, c2, c3, p4, c5, c6...]
 
-=head2 DrawSplineSegmentLinear( $p1, $p2, $color )
+=head2 DrawSplineSegmentLinear( $p1, $p2, $thick, $color )
 
 Draw spline segment: Linear, 2 points
 
-=head2 DrawSplineSegmentBasis( $p1, $p2, $color )
+=head2 DrawSplineSegmentBasis( $p1, $p2, $thick, $color )
 
 Draw spline segment: B-Spline, 4 points
 
@@ -2081,11 +2081,11 @@ Draw spline segment: B-Spline, 4 points
 
 Draw spline segment: Catmull-Rom, 4 points
 
-=head2 DrawSplineSegmentBezierQuadratic( $p1, $p2, $p3, $color )
+=head2 DrawSplineSegmentBezierQuadratic( $p1, $p2, $p3, $thick, $color )
 
 Draw spline segment: Quadratic Bezier, 2 points, 1 control point
 
-=head2 DrawSplineSegmentBezierCubic( $p1, $p2, $p3, $p4, $color )
+=head2 DrawSplineSegmentBezierCubic( $p1, $p2, $p3, $p4, $thick, $color )
 
 Draw spline segment: Cubic Bezier, 2 points, 2 control points
 
