@@ -1114,6 +1114,14 @@ for my $func ( keys %functions ) {
 # export all the functions lexically
 our @EXPORT_OK = grep { __PACKAGE__->can($_) } keys %functions;
 our %EXPORT_TAGS = (all => \@EXPORT_OK);
+
+sub attach {
+    my $name = shift;
+    $ffi->attach( $name => @_ );
+    my $perl_name = ref $name eq 'ARRAY' ? $name->[1] : $name;
+    push @EXPORT_OK, $perl_name;
+}
+
 1;
 
 __END__
@@ -3204,6 +3212,29 @@ Set pan for audio stream (0.5 is center)
 =head2 SetAudioStreamBufferSizeDefault( $size )
 
 Default size for new audio streams
+
+=head1 Ad-hoc binding
+
+Binding to the most commonly used Raylib functions is provided by this module.
+However, Raylib's API includes hundreds of functions not explicitly defined
+here which may prove useful, e.g. those in the
+L<rlgl module|https://github.com/raysan5/raylib/blob/master/src/rlgl.h>.
+
+=head2 attach
+
+A function called attach is provided (though not exported) which allows you to
+bind additional Raylib functions at run-time. These functions may then be
+imported to your namespace.
+
+This works identically to L<FFI::Platypus/attach>:
+
+    use Raylib::FFI ':all';
+
+    Raylib::FFI::attach( rlTranslatef => [ ( 'float' ) x 3 ] );
+    Raylib::FFI->import( qw( rlTranslatef ) );
+
+    # use rlTranslatef() here
+
 
 =head1 KNOWN ISSUES
 
