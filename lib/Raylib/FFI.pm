@@ -959,12 +959,15 @@ my %functions = (
     GetModelBoundingBox => [ ['Model']  => 'BoundingBox' ],
 
     # model drawing functions
-    DrawModel   => [ [ 'Model', 'Vector3D', 'float' ] => 'void' ],
+    DrawModel   => [ [ 'Model', 'Vector3D', 'float', 'Color' ] => 'void' ],
     DrawModelEx =>
-      [ [ 'Model', 'Vector3D', 'Vector3D', 'float', 'Color' ] => 'void' ],
-    DrawModelWires   => [ [ 'Model', 'Vector3D', 'float' ] => 'void' ],
+      [ [ 'Model', 'Vector3D', 'Vector3D', 'float', 'Vector3D', 'Color' ] => 'void' ],
+    DrawModelWires   => [ [ 'Model', 'Vector3D', 'float', 'Color' ] => 'void' ],
     DrawModelWiresEx =>
-      [ [ 'Model', 'Vector3D', 'Vector3D', 'float', 'Color' ] => 'void' ],
+      [ [ 'Model', 'Vector3D', 'Vector3D', 'float', 'Vector3D', 'Color' ] => 'void' ],
+    DrawModelPoints   => [ [ 'Model', 'Vector3D', 'float', 'Color' ] => 'void' ],
+    DrawModelPointsEx =>
+      [ [ 'Model', 'Vector3D', 'Vector3D', 'float', 'Vector3D', 'Color' ] => 'void' ],
     DrawBoundingBox => [ [ 'BoundingBox', 'Color' ] => 'void' ],
     DrawBillboard   =>
       [ [ 'Camera', 'Texture2D', 'Vector3D', 'float', 'Color' ] => 'void' ],
