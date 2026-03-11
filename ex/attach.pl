@@ -17,8 +17,8 @@ while ( !WindowShouldClose() ) {
     ClearBackground( Raylib::Color::BLACK );
     BeginDrawing();
     rlTranslatef( 400, 300 );
-    rotate($r+=3, 0, 0, -1);
-    DrawText( "Weeee!", 0, 0, 40, Raylib::Color::WHITE);
+    rotate( $r += 3, 0, 0, -1 );
+    DrawText( "Weeee!", 0, 0, 40, Raylib::Color::WHITE );
     EndDrawing();
 }
 
