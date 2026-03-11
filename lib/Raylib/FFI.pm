@@ -2068,7 +2068,7 @@ Draw spline: Catmull-Rom, minimum 4 points
 
 Draw spline: Quadratic Bezier, minimum 3 points (1 control point): [p1, c2, p3, c4...]
 
-=head2 DrawSplineBezierCubic( $points, $pointCount, $float, $color )
+=head2 DrawSplineBezierCubic( $points, $pointCount, $thick, $color )
 
 Draw spline: Cubic Bezier, minimum 4 points (2 control points): [p1, c2, c3, p4, c5, c6...]
 
