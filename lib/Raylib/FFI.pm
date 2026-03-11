@@ -657,44 +657,46 @@ my %functions = (
     SetShapesTexture => [ [ 'Texture2D', 'Rectangle' ] => 'void' ],
 
     # Basic shapes drawing functions
-    DrawPixel             => [ [qw(int int)]                       => 'void' ],
-    DrawPixelV            => [ ['Vector2D']                        => 'void' ],
-    DrawLine              => [ [qw(int int int int)]               => 'void' ],
-    DrawLineV             => [ [ 'Vector2D', 'Vector2D' ]          => 'void' ],
-    DrawLineEx            => [ [ 'Vector2D', 'Vector2D', 'float' ] => 'void' ],
-    DrawLineStrip         => [ [ 'Vector2D*', 'int' ]              => 'void' ],
-    DrawLineBezier        => [ [ 'Vector2D*', 'int' ]              => 'void' ],
-    DrawCircle            => [ [qw(int int float)]                 => 'void' ],
-    DrawCircleSector      => [ [qw(int int float float)]           => 'void' ],
-    DrawCircleSectorLines => [ [qw(int int float float)]           => 'void' ],
-    DrawCircleGradient    => [ [qw(int int float)]                 => 'void' ],
-    DrawCircleV           => [ [ 'Vector2D', 'float' ]             => 'void' ],
-    DrawCircleLines       => [ [qw(int int float)]                 => 'void' ],
-    DrawCircleLinesV      => [ [ 'Vector2D', 'float' ]             => 'void' ],
-    DrawEllipse           => [ [qw(int int float float)]           => 'void' ],
-    DrawEllipseLines      => [ [qw(int int float float)]           => 'void' ],
-    DrawRing              => [ [qw(int int float float float)]     => 'void' ],
-    DrawRingLines         => [ [qw(int int float float float)]     => 'void' ],
-    DrawRectangle         => [ [qw(int int int int Color)]         => 'void' ],
-    DrawRectangleV        => [ [ 'Vector2D', 'Vector2D' ]          => 'void' ],
-    DrawRectangleRec      => [ [ 'Rectangle', 'Color' ]            => 'void' ],
-    DrawRectanglePro      =>
-      [ [ 'Rectangle', 'Vector2D', 'float', 'Color' ] => 'void' ],
-    DrawRectangleGradientV  => [ [qw(int int int int)]             => 'void' ],
-    DrawRectangleGradientH  => [ [qw(int int int int)]             => 'void' ],
-    DrawRectangleGradientEx => [ [ 'Rectangle', 'Color', 'Color' ] => 'void' ],
-    DrawRectangleLines      => [ [qw(int int int int)]             => 'void' ],
-    DrawRectangleLinesEx    => [ [ 'Rectangle', 'float' ]          => 'void' ],
-    DrawRectangleRounded    => [ [ 'Rectangle', 'float', 'int' ]   => 'void' ],
-    DrawRectangleRoundedLines => [ [ 'Rectangle', 'float', 'int' ] => 'void' ],
+    DrawPixel      => [ [qw(int int Color)]                 => 'void' ],
+    DrawPixelV     => [ [qw(Vector2D Color)]                => 'void' ],
+    DrawLine       => [ [qw(int int int int Color)]         => 'void' ],
+    DrawLineV      => [ [qw(Vector2D Vector2D Color)]       => 'void' ],
+    DrawLineEx     => [ [qw(Vector2D Vector2D float Color)] => 'void' ],
+    DrawLineStrip  => [ [qw(Vector2D* int Color)]           => 'void' ],
+    DrawLineBezier => [ [qw(Vector2D Vector2D float Color)] => 'void' ],
 
-    DrawTriangle      => [ [ 'Vector2D', 'Vector2D', 'Vector2D' ]   => 'void' ],
-    DrawTriangleLines => [ [ 'Vector2D', 'Vector2D', 'Vector2D' ]   => 'void' ],
-    DrawTriangleFan   => [ [ 'Vector2D*', 'int' ]                   => 'void' ],
-    DrawTriangleStrip => [ [ 'Vector2D*', 'int' ]                   => 'void' ],
-    DrawPoly          => [ [ 'Vector2D*', 'int', 'float' ]          => 'void' ],
-    DrawPolyLines     => [ [ 'Vector2D*', 'int', 'float' ]          => 'void' ],
-    DrawPolyLinesEx   => [ [ 'Vector2D*', 'int', 'float', 'float' ] => 'void' ],
+    DrawCircle       => [ [qw(int int float Color)] => 'void' ],
+    DrawCircleSector => [ [qw(Vector2D float float float int Color)] => 'void' ],
+    DrawCircleSectorLines => [ [qw(Vector2D float float float int Color)] => 'void' ],
+    DrawCircleGradient => [ [qw(int int float Color Color)] => 'void' ],
+    DrawCircleV        => [ [qw(Vector2D float Color)]      => 'void' ],
+    DrawCircleLines    => [ [qw(int int float Color)]       => 'void' ],
+    DrawCircleLinesV   => [ [qw(Vector2D float Color)]      => 'void' ],
+    DrawEllipse        => [ [qw(int int float float Color)] => 'void' ],
+    DrawEllipseLines   => [ [qw(int int float float Color)] => 'void' ],
+    DrawRing => [ [qw(Vector2D float float float float int Color)] => 'void' ],
+    DrawRingLines => [ [qw(Vector2D float float float float int Color)] => 'void' ],
+
+    DrawRectangle    => [ [qw(int int int int Color)]          => 'void' ],
+    DrawRectangleV   => [ [ 'Vector2D', 'Vector2D', 'Color' ]  => 'void' ],
+    DrawRectangleRec => [ [ 'Rectangle', 'Color' ]             => 'void' ],
+    DrawRectanglePro => [ [qw(Rectangle Vector2D float Color)] => 'void' ],
+    DrawRectangleGradientV => [ [qw(int int int int Color Color)] => 'void' ],
+    DrawRectangleGradientH => [ [qw(int int int int Color Color)] => 'void' ],
+    DrawRectangleGradientEx => [ [qw(Rectangle Color Color Color Color)] => 'void' ],
+    DrawRectangleLines   => [ [qw(int int int int Color)]       => 'void' ],
+    DrawRectangleLinesEx => [ [ 'Rectangle', 'float', 'Color' ] => 'void' ],
+    DrawRectangleRounded => [ [ 'Rectangle', 'float', 'int', 'Color' ] => 'void' ],
+    DrawRectangleRoundedLines => [ [qw(Rectangle float int Color)] => 'void' ],
+    DrawRectangleRoundedLinesEx => [ [qw(Rectangle float int float Color)] => 'void' ],
+
+    DrawTriangle      => [ [ 'Vector2D', 'Vector2D', 'Vector2D', 'Color' ] => 'void' ],
+    DrawTriangleLines => [ [ 'Vector2D', 'Vector2D', 'Vector2D', 'Color' ] => 'void' ],
+    DrawTriangleFan   => [ [ 'Vector2D*', 'int', 'Color' ]      => 'void' ],
+    DrawTriangleStrip => [ [ 'Vector2D*', 'int', 'Color' ]      => 'void' ],
+    DrawPoly          => [ [qw(Vector2D int float float Color)] => 'void' ],
+    DrawPolyLines     => [ [qw(Vector2D int float float Color)] => 'void' ],
+    DrawPolyLinesEx   => [ [qw(Vector2D int float float float Color)] => 'void' ],
 
     # Splines Drawing Functions
     DrawSplineLinear            => [ [ 'Vector2D*', 'int' ]      => 'void' ],
@@ -2019,19 +2021,19 @@ Draw rectangle with rounded edges
 
 Draw rectangle lines with rounded edges
 
-=head2 DrawTriangle( $v1, $v2, $v3 )
+=head2 DrawTriangle( $v1, $v2, $v3, $color )
 
 Draw a color-filled triangle (vertex in counter-clockwise order!)
 
-=head2 DrawTriangleLines( $v1, $v2, $v3 )
+=head2 DrawTriangleLines( $v1, $v2, $v3, $color )
 
 Draw triangle outline (vertex in counter-clockwise order!)
 
-=head2 DrawTriangleFan( $points, $pointCount )
+=head2 DrawTriangleFan( $points, $pointCount, $color )
 
 Draw a triangle fan defined by points (first vertex is the center)
 
-=head2 DrawTriangleStrip( $points, $pointCount )
+=head2 DrawTriangleStrip( $points, $pointCount, $color )
 
 Draw a triangle strip defined by points
 
