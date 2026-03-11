@@ -657,57 +657,59 @@ my %functions = (
     SetShapesTexture => [ [ 'Texture2D', 'Rectangle' ] => 'void' ],
 
     # Basic shapes drawing functions
-    DrawPixel             => [ [qw(int int)]                       => 'void' ],
-    DrawPixelV            => [ ['Vector2D']                        => 'void' ],
-    DrawLine              => [ [qw(int int int int)]               => 'void' ],
-    DrawLineV             => [ [ 'Vector2D', 'Vector2D' ]          => 'void' ],
-    DrawLineEx            => [ [ 'Vector2D', 'Vector2D', 'float' ] => 'void' ],
-    DrawLineStrip         => [ [ 'Vector2D*', 'int' ]              => 'void' ],
-    DrawLineBezier        => [ [ 'Vector2D*', 'int' ]              => 'void' ],
-    DrawCircle            => [ [qw(int int float)]                 => 'void' ],
-    DrawCircleSector      => [ [qw(int int float float)]           => 'void' ],
-    DrawCircleSectorLines => [ [qw(int int float float)]           => 'void' ],
-    DrawCircleGradient    => [ [qw(int int float)]                 => 'void' ],
-    DrawCircleV           => [ [ 'Vector2D', 'float' ]             => 'void' ],
-    DrawCircleLines       => [ [qw(int int float)]                 => 'void' ],
-    DrawCircleLinesV      => [ [ 'Vector2D', 'float' ]             => 'void' ],
-    DrawEllipse           => [ [qw(int int float float)]           => 'void' ],
-    DrawEllipseLines      => [ [qw(int int float float)]           => 'void' ],
-    DrawRing              => [ [qw(int int float float float)]     => 'void' ],
-    DrawRingLines         => [ [qw(int int float float float)]     => 'void' ],
-    DrawRectangle         => [ [qw(int int int int Color)]         => 'void' ],
-    DrawRectangleV        => [ [ 'Vector2D', 'Vector2D' ]          => 'void' ],
-    DrawRectangleRec      => [ [ 'Rectangle', 'Color' ]            => 'void' ],
-    DrawRectanglePro      =>
-      [ [ 'Rectangle', 'Vector2D', 'float', 'Color' ] => 'void' ],
-    DrawRectangleGradientV  => [ [qw(int int int int)]             => 'void' ],
-    DrawRectangleGradientH  => [ [qw(int int int int)]             => 'void' ],
-    DrawRectangleGradientEx => [ [ 'Rectangle', 'Color', 'Color' ] => 'void' ],
-    DrawRectangleLines      => [ [qw(int int int int)]             => 'void' ],
-    DrawRectangleLinesEx    => [ [ 'Rectangle', 'float' ]          => 'void' ],
-    DrawRectangleRounded    => [ [ 'Rectangle', 'float', 'int' ]   => 'void' ],
-    DrawRectangleRoundedLines => [ [ 'Rectangle', 'float', 'int' ] => 'void' ],
+    DrawPixel      => [ [qw(int int Color)]                 => 'void' ],
+    DrawPixelV     => [ [qw(Vector2D Color)]                => 'void' ],
+    DrawLine       => [ [qw(int int int int Color)]         => 'void' ],
+    DrawLineV      => [ [qw(Vector2D Vector2D Color)]       => 'void' ],
+    DrawLineEx     => [ [qw(Vector2D Vector2D float Color)] => 'void' ],
+    DrawLineStrip  => [ [qw(Vector2D* int Color)]           => 'void' ],
+    DrawLineBezier => [ [qw(Vector2D Vector2D float Color)] => 'void' ],
 
-    DrawTriangle      => [ [ 'Vector2D', 'Vector2D', 'Vector2D' ]   => 'void' ],
-    DrawTriangleLines => [ [ 'Vector2D', 'Vector2D', 'Vector2D' ]   => 'void' ],
-    DrawTriangleFan   => [ [ 'Vector2D*', 'int' ]                   => 'void' ],
-    DrawTriangleStrip => [ [ 'Vector2D*', 'int' ]                   => 'void' ],
-    DrawPoly          => [ [ 'Vector2D*', 'int', 'float' ]          => 'void' ],
-    DrawPolyLines     => [ [ 'Vector2D*', 'int', 'float' ]          => 'void' ],
-    DrawPolyLinesEx   => [ [ 'Vector2D*', 'int', 'float', 'float' ] => 'void' ],
+    DrawCircle       => [ [qw(int int float Color)] => 'void' ],
+    DrawCircleSector => [ [qw(Vector2D float float float int Color)] => 'void' ],
+    DrawCircleSectorLines => [ [qw(Vector2D float float float int Color)] => 'void' ],
+    DrawCircleGradient => [ [qw(int int float Color Color)] => 'void' ],
+    DrawCircleV        => [ [qw(Vector2D float Color)]      => 'void' ],
+    DrawCircleLines    => [ [qw(int int float Color)]       => 'void' ],
+    DrawCircleLinesV   => [ [qw(Vector2D float Color)]      => 'void' ],
+    DrawEllipse        => [ [qw(int int float float Color)] => 'void' ],
+    DrawEllipseLines   => [ [qw(int int float float Color)] => 'void' ],
+    DrawRing => [ [qw(Vector2D float float float float int Color)] => 'void' ],
+    DrawRingLines => [ [qw(Vector2D float float float float int Color)] => 'void' ],
+
+    DrawRectangle    => [ [qw(int int int int Color)]          => 'void' ],
+    DrawRectangleV   => [ [ 'Vector2D', 'Vector2D', 'Color' ]  => 'void' ],
+    DrawRectangleRec => [ [ 'Rectangle', 'Color' ]             => 'void' ],
+    DrawRectanglePro => [ [qw(Rectangle Vector2D float Color)] => 'void' ],
+    DrawRectangleGradientV => [ [qw(int int int int Color Color)] => 'void' ],
+    DrawRectangleGradientH => [ [qw(int int int int Color Color)] => 'void' ],
+    DrawRectangleGradientEx => [ [qw(Rectangle Color Color Color Color)] => 'void' ],
+    DrawRectangleLines   => [ [qw(int int int int Color)]       => 'void' ],
+    DrawRectangleLinesEx => [ [ 'Rectangle', 'float', 'Color' ] => 'void' ],
+    DrawRectangleRounded => [ [ 'Rectangle', 'float', 'int', 'Color' ] => 'void' ],
+    DrawRectangleRoundedLines => [ [qw(Rectangle float int Color)] => 'void' ],
+    DrawRectangleRoundedLinesEx => [ [qw(Rectangle float int float Color)] => 'void' ],
+
+    DrawTriangle      => [ [ 'Vector2D', 'Vector2D', 'Vector2D', 'Color' ] => 'void' ],
+    DrawTriangleLines => [ [ 'Vector2D', 'Vector2D', 'Vector2D', 'Color' ] => 'void' ],
+    DrawTriangleFan   => [ [ 'Vector2D*', 'int', 'Color' ]      => 'void' ],
+    DrawTriangleStrip => [ [ 'Vector2D*', 'int', 'Color' ]      => 'void' ],
+    DrawPoly          => [ [qw(Vector2D int float float Color)] => 'void' ],
+    DrawPolyLines     => [ [qw(Vector2D int float float Color)] => 'void' ],
+    DrawPolyLinesEx   => [ [qw(Vector2D int float float float Color)] => 'void' ],
 
     # Splines Drawing Functions
-    DrawSplineLinear            => [ [ 'Vector2D*', 'int' ]      => 'void' ],
-    DrawSplineBasis             => [ [ 'Vector2D*', 'int' ]      => 'void' ],
-    DrawSplineCatmullRom        => [ [ 'Vector2D*', 'int' ]      => 'void' ],
-    DrawSplineBezierQuadratic   => [ [ 'Vector2D*', 'int' ]      => 'void' ],
-    DrawSplineBezierCubic       => [ [ 'Vector2D*', 'int' ]      => 'void' ],
-    DrawSplineSegmentLinear     => [ [ 'Vector2D',  'Vector2D' ] => 'void' ],
-    DrawSplineSegmentBasis      => [ [ 'Vector2D',  'Vector2D' ] => 'void' ],
-    DrawSplineSegmentCatmullRom => [ [ 'Vector2D',  'Vector2D' ] => 'void' ],
-    DrawSplineSegmentBezierQuadratic =>
-      [ [ 'Vector2D', 'Vector2D' ] => 'void' ],
-    DrawSplineSegmentBezierCubic => [ [ 'Vector2D', 'Vector2D' ] => 'void' ],
+    DrawSplineLinear            => [ [ 'Vector2D*', 'int', 'float', 'Color' ]      => 'void' ],
+    DrawSplineBasis             => [ [ 'Vector2D*', 'int', 'float', 'Color' ]      => 'void' ],
+    DrawSplineCatmullRom        => [ [ 'Vector2D*', 'int', 'float', 'Color' ]      => 'void' ],
+    DrawSplineBezierQuadratic   => [ [ 'Vector2D*', 'int', 'float', 'Color' ]      => 'void' ],
+    DrawSplineBezierCubic       => [ [ 'Vector2D*', 'int', 'float', 'Color' ]      => 'void' ],
+    DrawSplineSegmentLinear     => [ [ 'Vector2D',  'Vector2D', 'float', 'Color' ] => 'void' ],
+
+    DrawSplineSegmentBasis => [ [qw(Vector2D Vector2D Vector2D Vector2D float Color)] ],
+    DrawSplineSegmentCatmullRom => [ [qw(Vector2D Vector2D Vector2D Vector2D float Color)] ],
+    DrawSplineSegmentBezierQuadratic => [ [qw(Vector2D Vector2D Vector2D float Color)] ],
+    DrawSplineSegmentBezierCubic => [ [qw(Vector2D Vector2D Vector2D Vector2D float Color)] ],
 
     # pline segment point evaluation functions, for a given t [0.0f .. 1.0f]
     GetSplinePointLinear      => [ [ 'Vector2D', 'float' ] => 'Vector2D' ],
@@ -957,12 +959,15 @@ my %functions = (
     GetModelBoundingBox => [ ['Model']  => 'BoundingBox' ],
 
     # model drawing functions
-    DrawModel   => [ [ 'Model', 'Vector3D', 'float' ] => 'void' ],
+    DrawModel   => [ [ 'Model', 'Vector3D', 'float', 'Color' ] => 'void' ],
     DrawModelEx =>
-      [ [ 'Model', 'Vector3D', 'Vector3D', 'float', 'Color' ] => 'void' ],
-    DrawModelWires   => [ [ 'Model', 'Vector3D', 'float' ] => 'void' ],
+      [ [ 'Model', 'Vector3D', 'Vector3D', 'float', 'Vector3D', 'Color' ] => 'void' ],
+    DrawModelWires   => [ [ 'Model', 'Vector3D', 'float', 'Color' ] => 'void' ],
     DrawModelWiresEx =>
-      [ [ 'Model', 'Vector3D', 'Vector3D', 'float', 'Color' ] => 'void' ],
+      [ [ 'Model', 'Vector3D', 'Vector3D', 'float', 'Vector3D', 'Color' ] => 'void' ],
+    DrawModelPoints   => [ [ 'Model', 'Vector3D', 'float', 'Color' ] => 'void' ],
+    DrawModelPointsEx =>
+      [ [ 'Model', 'Vector3D', 'Vector3D', 'float', 'Vector3D', 'Color' ] => 'void' ],
     DrawBoundingBox => [ [ 'BoundingBox', 'Color' ] => 'void' ],
     DrawBillboard   =>
       [ [ 'Camera', 'Texture2D', 'Vector3D', 'float', 'Color' ] => 'void' ],
@@ -2019,19 +2024,19 @@ Draw rectangle with rounded edges
 
 Draw rectangle lines with rounded edges
 
-=head2 DrawTriangle( $v1, $v2, $v3 )
+=head2 DrawTriangle( $v1, $v2, $v3, $color )
 
 Draw a color-filled triangle (vertex in counter-clockwise order!)
 
-=head2 DrawTriangleLines( $v1, $v2, $v3 )
+=head2 DrawTriangleLines( $v1, $v2, $v3, $color )
 
 Draw triangle outline (vertex in counter-clockwise order!)
 
-=head2 DrawTriangleFan( $points, $pointCount )
+=head2 DrawTriangleFan( $points, $pointCount, $color )
 
 Draw a triangle fan defined by points (first vertex is the center)
 
-=head2 DrawTriangleStrip( $points, $pointCount )
+=head2 DrawTriangleStrip( $points, $pointCount, $color )
 
 Draw a triangle strip defined by points
 
@@ -2047,31 +2052,31 @@ Draw a polygon outline of n sides
 
 Draw a polygon outline of n sides with extended parameters
 
-=head2 DrawSplineLinear( $points, $pointCount, $color )
+=head2 DrawSplineLinear( $points, $pointCount, $thick, $color )
 
 Draw spline: Linear, minimum 2 points
 
-=head2 DrawSplineBasis( $points, $pointCount, $color )
+=head2 DrawSplineBasis( $points, $pointCount, $thick, $color )
 
 Draw spline: B-Spline, minimum 4 points
 
-=head2 DrawSplineCatmullRom( $points, $pointCount, $color )
+=head2 DrawSplineCatmullRom( $points, $pointCount, $thick, $color )
 
 Draw spline: Catmull-Rom, minimum 4 points
 
-=head2 DrawSplineBezierQuadratic( $points, $pointCount, $color )
+=head2 DrawSplineBezierQuadratic( $points, $pointCount, $thick, $color )
 
 Draw spline: Quadratic Bezier, minimum 3 points (1 control point): [p1, c2, p3, c4...]
 
-=head2 DrawSplineBezierCubic( $points, $pointCount, $color )
+=head2 DrawSplineBezierCubic( $points, $pointCount, $thick, $color )
 
 Draw spline: Cubic Bezier, minimum 4 points (2 control points): [p1, c2, c3, p4, c5, c6...]
 
-=head2 DrawSplineSegmentLinear( $p1, $p2, $color )
+=head2 DrawSplineSegmentLinear( $p1, $p2, $thick, $color )
 
 Draw spline segment: Linear, 2 points
 
-=head2 DrawSplineSegmentBasis( $p1, $p2, $color )
+=head2 DrawSplineSegmentBasis( $p1, $p2, $thick, $color )
 
 Draw spline segment: B-Spline, 4 points
 
@@ -2079,11 +2084,11 @@ Draw spline segment: B-Spline, 4 points
 
 Draw spline segment: Catmull-Rom, 4 points
 
-=head2 DrawSplineSegmentBezierQuadratic( $p1, $p2, $p3, $color )
+=head2 DrawSplineSegmentBezierQuadratic( $p1, $p2, $p3, $thick, $color )
 
 Draw spline segment: Quadratic Bezier, 2 points, 1 control point
 
-=head2 DrawSplineSegmentBezierCubic( $p1, $p2, $p3, $p4, $color )
+=head2 DrawSplineSegmentBezierCubic( $p1, $p2, $p3, $p4, $thick, $color )
 
 Draw spline segment: Cubic Bezier, 2 points, 2 control points
 
