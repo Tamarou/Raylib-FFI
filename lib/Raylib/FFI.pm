@@ -375,9 +375,11 @@ $ffi->type( 'record(Raylib::FFI::AudioStream)' => 'AudioStream' );
 
 package Raylib::FFI::Sound {
     use FFI::Platypus::Record qw( record_layout_1 );
+    my $size = $ffi->sizeof('AudioStream');
+
     record_layout_1(
         $ffi,
-        opaque => 'stream',      # cast to AudioStream
+        "record($size)" => 'stream', # Pass by value
         uint   => 'frameCount',  # Total number of frames (considering channels)
     );
 }
